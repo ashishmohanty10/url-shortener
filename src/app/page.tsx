@@ -1,10 +1,10 @@
-import { Signin } from "@/components/auth/signin";
+import { Signup } from "@/components/auth/signup-form";
 import { Container } from "@/components/common/container";
 
 export default function Home() {
   return (
-    <Container className="h-screen flex items-center justify-center w-full">
-      <Signin />
+    <Container className="flex h-screen w-full items-center justify-center">
+      <Signup />
     </Container>
   );
 }

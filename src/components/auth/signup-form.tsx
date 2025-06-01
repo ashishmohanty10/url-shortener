@@ -17,11 +17,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, signInSchemaType } from "@/lib/zod-schema";
+import { signUpSchema, SignUpSchemaType } from "@/lib/zod-schema";
+import signUpSideImage from "../../../public/signup-side-img.jpg";
 
-export function Signin() {
-  const form = useForm<signInSchemaType>({
-    resolver: zodResolver(signInSchema),
+export function Signup() {
+  const form = useForm<SignUpSchemaType>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -33,28 +34,29 @@ export function Signin() {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (values: signInSchemaType) => {
+  const onSubmit = (values: SignUpSchemaType) => {
     console.log(values);
   };
 
   return (
-    <div className="h-[30rem] w-full max-w-3xl rounded-md bg-neutral-800 p-4">
+    <div className="h-full max-h-[30rem] w-full max-w-3xl rounded-md bg-neutral-800 p-4">
       <div className="grid h-full w-full rounded-md md:grid-cols-2">
-        {/* Left */}
+        {/* Left Side*/}
         <div className="col-span-1 mb-5 w-full overflow-hidden rounded-md md:mb-0">
           <Image
-            src={
-              "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?q=80&w=2030&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            alt="signin display image"
+            src={signUpSideImage}
+            alt="signup side image"
             width={500}
             height={500}
             className="object-contain"
+            priority
+            blurDataURL=""
+            placeholder="blur"
           />
         </div>
 
-        {/* Right */}
-        <div className="col-span-1 flex w-full flex-col items-center justify-center p-2">
+        {/* Right Side*/}
+        <div className="col-span-1 flex w-full flex-col items-center justify-center">
           <div className="mb-10 flex flex-col items-center space-y-5">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
@@ -66,9 +68,30 @@ export function Signin() {
 
           <Form {...form}>
             <form
-              className="mb-2 flex flex-col space-y-4"
+              className="mb-2 flex w-full max-w-sm flex-col space-y-4 px-4"
               onSubmit={form.handleSubmit(onSubmit)}
             >
+              <FormField
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Full Name"
+                        {...field}
+                        type="text"
+                        className={cn(
+                          "w-full rounded-md border border-neutral-700 transition-colors",
+                          "focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200",
+                          "placeholder:text-neutral-300",
+                        )}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -129,17 +152,16 @@ export function Signin() {
                 type="submit"
                 className="bg-neutral-700 text-sm font-medium transition-colors hover:bg-neutral-600"
               >
-                Sign In
+                Sign Up
               </Button>
             </form>
           </Form>
 
           <p className="text-center text-sm font-normal text-neutral-400">
-            Don&apos;t have an account!{" "}
+            Already have an account!{" "}
             <span className="cursor-pointer font-medium text-white hover:underline">
-              Create Now
-            </span>{" "}
-            for free
+              Sign In
+            </span>
           </p>
         </div>
       </div>

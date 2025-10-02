@@ -11,3 +11,5 @@ export const SUPPORTED_OAUTH_PROVIDERS_DETAILS: Record<
   google: { name: 'Google', Icon: GoogleIcon },
   github: { name: 'Github', Icon: GitHubIcon },
 }
+
+export const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'

@@ -1,5 +1,5 @@
 import { Container } from '@/components/common/container'
 
-export default function Home() {
+export default async function Home() {
   return <Container className="flex h-screen w-full items-center justify-center">hi</Container>
 }

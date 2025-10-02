@@ -1,73 +1,80 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "../ui/input";
-import { Avatar } from "../ui/avatar";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, SignInSchemaType } from "@/lib/zod-schema";
-import signInSideImage from "../../../public/signin-side-img.jpg";
+import Image from 'next/image'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
+import { useForm } from 'react-hook-form'
+import { Input } from '../ui/input'
+import { useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signInSchema, SignInSchemaType } from '@/lib/zod-schema'
+import signInSideImage from '@/../public/signin-side-img.jpg'
+import { authClient } from '@/lib/auth-client'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { Separator } from '@/components/ui/separator'
+import { SocialAuthButtons } from '@/components/auth/social-auth-button'
+import { CustomButton } from '@/components/common/custom-button'
 
-export function Signin() {
+export function SigninForm() {
+  const router = useRouter()
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-  });
-  const [showPassword, setShowPassword] = useState(false);
+    mode: 'onBlur',
+  })
+  const { isSubmitting } = form.formState
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+    setShowPassword(prev => !prev)
+  }
 
-  const onSubmit = (values: SignInSchemaType) => {
-    console.log(values);
-  };
+  const onSubmit = async (values: SignInSchemaType) => {
+    await authClient.signIn.email(
+      { ...values, callbackURL: '/' },
+      {
+        onError: error => {
+          toast.error(error.error.message || 'Failed to sign in')
+        },
+        onSuccess: () => {
+          router.push('/dashboard')
+          toast.success('Signin successful')
+        },
+      }
+    )
+  }
 
   return (
-    <div className="h-full max-h-[30rem] w-full max-w-3xl rounded-md bg-neutral-800 p-4">
+    <div className="h-fit md:h-[30rem] w-full max-w-3xl rounded-md bg-neutral-800 p-4">
       <div className="grid h-full w-full rounded-md md:grid-cols-2">
         {/* Left Side*/}
-        <div className="col-span-1 mb-5 w-full overflow-hidden rounded-md md:mb-0">
+        <div className="col-span-1 mb-5 w-full overflow-hidden rounded-md md:mb-0 relative h-[100px] md:h-auto">
           <Image
             src={signInSideImage}
             alt="signin display image"
-            width={500}
-            height={500}
-            className="object-contain"
+            fill
+            className="object-cover"
             priority
             placeholder="blur"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
 
         {/* Right Side*/}
-        <div className="col-span-1 flex w-full flex-col items-center justify-center">
-          <div className="mb-10 flex flex-col items-center space-y-5">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-
-            <h2 className="text-lg font-semibold">COMPANY NAME</h2>
+        <div className="col-span-1 flex w-full flex-col items-center justify-center md:px-4">
+          <div className="mb-3 md:mb-10 flex flex-col items-center space-y-2 md:space-y-5">
+            <h2 className="text-lg font-semibold">Welcome! Back</h2>
           </div>
 
           <Form {...form}>
             <form
-              className="mb-2 flex w-full max-w-sm flex-col space-y-4 px-4"
+              noValidate
+              className="mb-2 flex w-full max-w-sm flex-col space-y-4"
               onSubmit={form.handleSubmit(onSubmit)}
             >
               <FormField
@@ -81,13 +88,13 @@ export function Signin() {
                         {...field}
                         type="email"
                         className={cn(
-                          "w-full rounded-md border border-neutral-700 transition-colors",
-                          "focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200",
-                          "placeholder:text-neutral-300",
+                          'w-full rounded-md border border-neutral-700 transition-colors',
+                          'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
+                          'placeholder:text-neutral-300'
                         )}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-sm text-red-500" />
                   </FormItem>
                 )}
               />
@@ -102,15 +109,15 @@ export function Signin() {
                           placeholder="Password"
                           {...field}
                           className="border-none placeholder:text-neutral-300"
-                          type={showPassword ? "text" : "password"}
+                          type={showPassword ? 'text' : 'password'}
                         />
 
                         {showPassword ? (
                           <EyeOff
                             onClick={handleShowPassword}
                             className={cn(
-                              "cursor-pointer text-neutral-400 transition-colors hover:text-white",
-                              showPassword && "text-white",
+                              'cursor-pointer text-neutral-400 transition-colors hover:text-white',
+                              showPassword && 'text-white'
                             )}
                           />
                         ) : (
@@ -121,29 +128,32 @@ export function Signin() {
                         )}
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-sm text-red-500" />
                   </FormItem>
                 )}
               />
 
-              <Button
-                type="submit"
-                className="bg-neutral-700 text-sm font-medium transition-colors hover:bg-neutral-600"
-              >
-                Sign In
-              </Button>
+              <CustomButton type="submit" variant="primary" size="medium" isLoading={isSubmitting}>
+                Signup
+              </CustomButton>
             </form>
           </Form>
 
           <p className="text-center text-sm font-normal text-neutral-400">
-            Don&apos;t have an account!{" "}
+            Don&apos;t have an account!{' '}
             <span className="cursor-pointer font-medium text-white hover:underline">
               Create Now
-            </span>{" "}
+            </span>{' '}
             for free
           </p>
+
+          <Separator className="border-b border-neutral-600 my-4" />
+
+          <div className="flex items-center gap-x-2">
+            <SocialAuthButtons />
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

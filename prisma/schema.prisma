@@ -25,6 +25,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  urls          Url[]
 
   banned     Boolean?  @default(false)
   banReason  String?
@@ -81,13 +82,15 @@ model Verification {
 }
 
 model Url {
-  id          String @id @default(cuid())
-  originalUrl String
-  shortUrl    String
-  clicks      String
+  id          String   @id @default(cuid())
+  originalUrl String   @unique
+  shortUrl    String   @unique
+  clicks      Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

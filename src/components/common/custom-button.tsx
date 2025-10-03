@@ -13,9 +13,9 @@ const buttonClasses = cva('relative inline-flex items-center justify-center', {
         'bg-neutral-700 text-white font-medium transition-colors hover:bg-neutral-600 rounded-md text-center',
     },
     size: {
-      xs: 'text-xs px-2 py-1',
-      small: 'text-xs px-4 py-[.25rem]',
-      medium: 'text-sm py-[.7rem] px-4',
+      xs: 'text-xs px-2 py-1  leading-none',
+      small: 'text-xs px-4 py-[.25rem]  leading-none',
+      medium: 'text-sm py-[.7rem] px-4 leading-none',
     },
   },
   defaultVariants: {

@@ -61,7 +61,17 @@ export const urlSchema = z.object({
   url: z.string().url('Please Enter valid URL'),
 })
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().trim().email({ message: 'Please enter a valid email address' }),
+})
+
+export const resetPasswordSchema = z.object({
+  password: z.string().trim().min(1, { message: 'Password is required' }),
+})
+
 export type URLFormType = z.infer<typeof urlSchema>
 export type SignInSchemaType = z.infer<typeof signInSchema>
 export type SignUpSchemaType = z.infer<typeof signUpSchema>
 export type SignUpWithConfirmSchemaType = z.infer<typeof signUpWithConfirmSchema>
+export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>

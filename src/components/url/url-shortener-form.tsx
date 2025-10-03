@@ -1,7 +1,7 @@
 'use client'
 
 import { CustomButton } from '@/components/common/custom-button'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { URLFormType, urlSchema } from '@/lib/zod-schema'
@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export function URLShortenerForm() {
-  const [shortURL, setShortURL] = useState<string | null>(null)
+  // const [shortURL, setShortURL] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const form = useForm<URLFormType>({
@@ -28,13 +28,13 @@ export function URLShortenerForm() {
       formData.append('url', values.url)
       const response = await shortenURLAction(formData)
       if (response.success && response.data) {
-        setShortURL(response.data.shortURL)
+        // setShortURL(response.data.shortURL)
         setError(null)
       } else {
-        setShortURL(null)
+        // setShortURL(null)
         setError(response.error ?? 'Failed To shorten url')
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong')
     }
   }

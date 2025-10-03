@@ -1,13 +1,8 @@
-'use server'
-
-import { Resend } from 'resend'
+import { sendEmail } from '@/utils/send-email'
 
 export async function sendPasswordResetEmail({ user, url }: { user: string; url: string }) {
-  const resend = new Resend(process.env.RESEND_API_KEY)
-
   try {
-    return await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
+    return await sendEmail({
       to: user,
       subject: 'Reset your password',
       html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

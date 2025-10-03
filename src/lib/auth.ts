@@ -3,6 +3,8 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { PrismaClient } from '../../prisma/generated/prisma'
 import { nextCookies } from 'better-auth/next-js'
 import { admin } from 'better-auth/plugins'
+import { sendPasswordResetEmail } from '@/server/sendPasswordResetEmail'
+import { sendEmailVerification } from '@/server/sendEmailVerification'
 
 const prisma = new PrismaClient()
 export const auth = betterAuth({
@@ -11,6 +13,17 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendPasswordResetEmail({ user: user.email!, url })
+    },
+  },
+  emailVerification: {
+    autoSignInAfterVerification: true,
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmailVerification({ user: user.email!, url })
+    },
   },
   session: {
     cookieCache: {

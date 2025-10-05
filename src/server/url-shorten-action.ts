@@ -1,23 +1,15 @@
 'use server'
 
 import { prisma } from '@/db'
-import { auth } from '@/lib/auth'
 import { urlSchema } from '@/lib/zod-schema'
-import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { nanoid } from 'nanoid'
 import { BASE_URL } from '@/utils/constant'
 import { revalidatePath } from 'next/cache'
 import { ensureHttps } from '@/lib/utils'
+import { requireAuth } from '@/utils/auth-guard'
 
 export const shortenURLAction = async (formData: FormData) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-
-  if (!session) {
-    redirect('/signin')
-  }
+  const session = await requireAuth()
 
   try {
     const data = formData.get('url') as string

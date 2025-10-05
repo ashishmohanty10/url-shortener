@@ -6,11 +6,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { SidebarSkeleton } from '../skeletons/sidebar-skeleton'
-import { userPermissionstore } from '@/hooks/user-permission'
+import { userPermissionStore } from '@/hooks/user-permission'
 
 export function Sidebar() {
   const pathname = usePathname()
-  const { hasPermission, checkPermission, loading } = userPermissionstore()
+  const { hasPermission, checkPermission, loading } = userPermissionStore()
   useEffect(() => {
     checkPermission()
   }, [])

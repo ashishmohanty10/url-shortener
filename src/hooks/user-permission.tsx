@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { authClient } from '@/lib/auth-client'
 import { UserPermissionStoreState } from '@/utils/types'
 
-export const userPermissionstore = create<UserPermissionStoreState>(set => ({
+export const userPermissionStore = create<UserPermissionStoreState>(set => ({
   hasPermission: false,
   loading: true,
   checkPermission: async () => {

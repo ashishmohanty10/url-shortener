@@ -23,7 +23,7 @@ export const randomBackgroundGenerator = () => {
     'repeating-linear-gradient(90deg, #6D6875, #6D6875 15px, #B5838D 15px, #B5838D 30px)',
     'repeating-radial-gradient(circle, #84A59D, #84A59D 10px, #E5989B 10px, #E5989B 20px)',
     'repeating-linear-gradient(135deg, #A3B18A 0px, #A3B18A 20px, #D4A373 20px, #D4A373 40px)',
-    'repeating-linear-gradient(0deg, #E5989B 0, #E5989B 2px, transparent 2px, transparent 40px), repeating-linear-gradient(90deg, #E5989B 0, #E5989B 2px, transparent 2px, transparent 40px)',
+    'repeating-linear-gradient(0deg, #E5989B 0, #E5989B 2px, transparent 2px, transparent 40px)',
     'repeating-linear-gradient(45deg, #6D6875, #6D6875 5px, #B5838D 5px, #B5838D 10px)',
   ]
 

@@ -1,25 +1,11 @@
 'use client'
 
-import { ProfileSkeleton } from '../skeletons/profile-skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { authClient } from '@/lib/auth-client'
 import { StatCard } from '../common/profile-stat-card'
 import { randomBackgroundGenerator } from '@/utils/random-color'
-import { useRouter } from 'next/navigation'
+import { SessionType } from '@/utils/types'
 
-export function Profile() {
-  const router = useRouter()
-  const { data: session, isPending } = authClient.useSession()
-
-  if (isPending) {
-    return <ProfileSkeleton />
-  }
-
-  if (!session) {
-    router.push('/signin')
-    return null
-  }
-
+export function Profile({ session }: { session: SessionType }) {
   return (
     <div className="h-full max-h-screen flex flex-col px-8">
       <div

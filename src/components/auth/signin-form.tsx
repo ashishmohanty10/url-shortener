@@ -41,7 +41,7 @@ export function SigninForm() {
 
   const onSubmit = async (values: SignInSchemaType) => {
     await authClient.signIn.email(
-      { ...values, callbackURL: '/' },
+      { ...values, callbackURL: '/dashboard' },
       {
         onError: error => {
           if (error.error.code === 'EMAIL_NOT_VERIFIED') {

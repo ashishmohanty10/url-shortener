@@ -1,15 +1,8 @@
 import { SignupForm } from '@/components/auth/signup-form'
-import { auth } from '@/lib/auth'
-import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { requireGuest } from '@/utils/auth-guard'
 
 export default async function Signup() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-  if (session) {
-    redirect('/dashboard')
-  }
+  await requireGuest()
   return (
     <div className="h-screen w-full flex items-center justify-center p-5 md:p-0">
       <SignupForm />

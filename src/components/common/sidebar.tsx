@@ -1,12 +1,12 @@
 'use client'
 
-import { userPermissionstore } from '@/hooks/user-permission'
 import { cn } from '@/lib/utils'
 import { SIDEBAR_ITEMS } from '@/utils/constant'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { SidebarSkeleton } from '../skeletons/sidebar-skeleton'
+import { userPermissionstore } from '@/hooks/user-permission'
 
 export function Sidebar() {
   const pathname = usePathname()

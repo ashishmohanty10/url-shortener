@@ -4,15 +4,28 @@ import { ProfileSkeleton } from '../skeletons/profile-skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { authClient } from '@/lib/auth-client'
 import { StatCard } from '../common/profile-stat-card'
+import { randomBackgroundGenerator } from '@/utils/random-color'
+import { useRouter } from 'next/navigation'
 
 export function Profile() {
+  const router = useRouter()
   const { data: session, isPending } = authClient.useSession()
+
   if (isPending) {
     return <ProfileSkeleton />
   }
+
+  if (!session) {
+    router.push('/signin')
+    return null
+  }
+
   return (
     <div className="h-full max-h-screen flex flex-col px-8">
-      <div className="h-[20rem] bg-primary-foreground/80 rounded-lg"></div>
+      <div
+        className={`h-[20rem] rounded-lg`}
+        style={{ background: randomBackgroundGenerator() }}
+      ></div>
 
       <div className="px-16">
         <div className="border-b border-neutral-750 flex items-center justify-between gap-x-4">

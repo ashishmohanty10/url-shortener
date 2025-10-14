@@ -3,12 +3,7 @@ import { StatCardProps } from '@/utils/types'
 
 export function StatCard({ label, value, className }: StatCardProps) {
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center bg-primary-foreground/80 rounded-lg p-4',
-        className
-      )}
-    >
+    <div className={cn('flex flex-col items-center card-bg p-4 rounded-lg', className)}>
       <div className="text-sm text-muted-foreground mb-2">{label}</div>
       <div className="text-2xl font-semibold">{value}</div>
     </div>

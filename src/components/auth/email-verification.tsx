@@ -40,7 +40,7 @@ export function EmailVerification({ email }: { email: string }) {
         onClick={() => {
           return authClient.sendVerificationEmail({
             email,
-            callbackURL: '/dashboard',
+            callbackURL: '/links',
           })
         }}
         disabled={timeToNextResend > 0}

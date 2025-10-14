@@ -26,6 +26,7 @@ export function SignupForm() {
     defaultValues: {
       email: '',
       password: '',
+      name: '',
     },
     mode: 'onBlur',
   })
@@ -41,7 +42,7 @@ export function SignupForm() {
     const res = await authClient.signUp.email(
       {
         ...values,
-        callbackURL: '/dashboard',
+        callbackURL: '/links',
       },
       {
         onError: error => {
@@ -56,7 +57,7 @@ export function SignupForm() {
     }
 
     if (res.error == null && res.data.user.emailVerified) {
-      router.push('/dashboard')
+      router.push('/links')
       toast.success('Successfully signed up')
     }
   }

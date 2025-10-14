@@ -49,7 +49,7 @@ export const shortenURLAction = async (formData: FormData) => {
       },
     })
     const shortURL = `${BASE_URL}/${createUrl.shortUrl}`
-    revalidatePath('/dashboard')
+    revalidatePath('/links')
 
     return {
       success: true,

@@ -1,7 +1,8 @@
 import { Resend } from 'resend'
+import { env } from '@/lib/env'
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL!
+const resend = new Resend(env.RESEND_API_KEY!)
+const FROM_EMAIL = env.RESEND_FROM_EMAIL!
 
 export async function sendEmail({
   to,

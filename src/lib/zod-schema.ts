@@ -69,6 +69,21 @@ export const resetPasswordSchema = z.object({
   password: z.string().trim().min(1, { message: 'Password is required' }),
 })
 
+export const fileSchema = z
+  .instanceof(File, { message: 'Please select an image file' })
+  .refine(file => file.type.startsWith('image/'), {
+    message: 'Only image files are allowed',
+  })
+  .refine(file => file.size <= 5 * 1024 * 1024, {
+    message: 'File size must be less than 5MB',
+  })
+
+export const profileImageSchema = z.object({
+  avatar: fileSchema,
+})
+
+export type profileImageSchemaType = z.infer<typeof profileImageSchema>
+export type fileSchemaType = z.infer<typeof fileSchema>
 export type URLFormType = z.infer<typeof urlSchema>
 export type SignInSchemaType = z.infer<typeof signInSchema>
 export type SignUpSchemaType = z.infer<typeof signUpSchema>

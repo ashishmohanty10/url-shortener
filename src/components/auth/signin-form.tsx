@@ -41,7 +41,7 @@ export function SigninForm() {
 
   const onSubmit = async (values: SignInSchemaType) => {
     await authClient.signIn.email(
-      { ...values, callbackURL: '/dashboard' },
+      { ...values, callbackURL: '/links' },
       {
         onError: error => {
           if (error.error.code === 'EMAIL_NOT_VERIFIED') {
@@ -51,7 +51,7 @@ export function SigninForm() {
           toast.error(error.error.message || 'Please verify your email')
         },
         onSuccess: () => {
-          router.push('/dashboard')
+          router.push('/links')
           toast.success('Signin successful')
         },
       }

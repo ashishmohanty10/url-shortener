@@ -1,5 +1,5 @@
 import { GitHubIcon, GoogleIcon } from '@/components/auth/o-auth-icons'
-import { ChartArea, CreditCard, HomeIcon, ShieldHalf, User } from 'lucide-react'
+import { ChartArea, CreditCard, Link2, ShieldHalf, User } from 'lucide-react'
 import { ComponentProps, ElementType } from 'react'
 
 export const SUPPORTED_OAUTH_PROVIDERS = ['github', 'google'] as const
@@ -18,9 +18,9 @@ export const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:300
 export const SIDEBAR_ITEMS = [
   {
     id: 1,
-    name: 'Dashboard',
-    href: '/dashboard',
-    icon: HomeIcon,
+    name: 'Links',
+    href: '/links',
+    icon: Link2,
     isPublic: true,
   },
   {

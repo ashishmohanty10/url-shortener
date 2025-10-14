@@ -1,16 +1,17 @@
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { cache } from 'react'
 
 // should only be use in server component
-export async function requireAuth() {
+export const requireAuth = cache(async () => {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session) redirect('/signin')
   return session
-}
+})
 
-export async function requireGuest() {
+export const requireGuest = cache(async () => {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (session) redirect('/dashboard')
+  if (session) redirect('/links')
   return null
-}
+})

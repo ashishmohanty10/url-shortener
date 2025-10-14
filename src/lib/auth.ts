@@ -7,6 +7,7 @@ import { createAuthMiddleware } from 'better-auth/api'
 import { sendPasswordResetEmail } from '@/server/send-password-reset-email'
 import { sendEmailVerification } from '@/server/send-email-verification'
 import { sendWelcomeEmail } from '@/server/send-welcome-email'
+import { env } from './env'
 
 const prisma = new PrismaClient()
 export const auth = betterAuth({
@@ -27,22 +28,16 @@ export const auth = betterAuth({
       await sendEmailVerification({ user: user.email!, url })
     },
   },
-  session: {
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 5,
-    },
-  },
   plugins: [nextCookies(), admin()],
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     },
     google: {
       prompt: 'select_account',
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
   hooks: {
@@ -59,3 +54,5 @@ export const auth = betterAuth({
     }),
   },
 })
+
+export type Session = typeof auth.$Infer.Session

@@ -72,3 +72,9 @@ input:-webkit-autofill {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .card-bg {
+    @apply bg-gradient-to-br from-secondary/80 to-secondary/20 border border-gray-800;
+  }
+}

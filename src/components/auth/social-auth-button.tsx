@@ -11,7 +11,7 @@ export function SocialAuthButtons() {
 
     const handleSubmit = async () => {
       await authClient.signIn.social(
-        { provider, callbackURL: '/dashboard' },
+        { provider, callbackURL: '/links' },
         {
           onError: error => {
             toast.error(

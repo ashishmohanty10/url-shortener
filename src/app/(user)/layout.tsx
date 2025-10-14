@@ -15,22 +15,26 @@ export default function DashboardLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="grid min-h-screen lg:grid-cols-[220px_1fr] w-full">
-      <div className="p-2 bg-secondary min-h-screen w-full">
-        <div className="flex flex-col h-full justify-between">
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-center gap-x-4">
-              <Logo className="size-8" />
-              <span className="text-xl font-semibold uppercase">Shortened</span>
-            </div>
+    <div className="grid min-h-screen bg-neutral-950 lg:grid-cols-[220px_1fr] w-full">
+      <div className="px-2 py-4">
+        <div className="p-2 w-full h-full bg-gradient-to-br from-secondary/80 to-secondary/20 rounded-lg">
+          <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-center gap-x-4 py-4">
+                <Logo className="size-7 leading-none" />
+                <div className="text-2xl font-bold leading-none">ShortenURL</div>
+              </div>
 
-            <Sidebar />
+              <Sidebar />
+            </div>
+            <UserButton />
           </div>
-          <UserButton />
         </div>
       </div>
-      <div className="p-4 min-h-screen bg-secondary/70 rounded-l-lg border-l border-primary/10">
-        {children}
+      <div className="px-2 py-4">
+        <div className="rounded-lg border border-primary/10 h-full p-4 bg-gradient-to-br from-secondary/80 to-secondary/20">
+          {children}
+        </div>
       </div>
     </div>
   )

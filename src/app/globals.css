@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -76,5 +80,13 @@ input:-webkit-autofill {
 @layer utilities {
   .card-bg {
     @apply bg-gradient-to-br from-secondary/80 to-secondary/20 border border-gray-800;
+  }
+
+  .border-x-axis {
+    @apply border-x border-neutral-800 px-4;
+  }
+
+  .border-y-axis {
+    @apply border-b border-neutral-800;
   }
 }

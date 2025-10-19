@@ -1,0 +1,39 @@
+import { Container } from '@/components/common/container'
+import { HeroSubTitle, HeroTitle, Tiles } from '@/components/common/titles'
+import { URLShortenerHome } from '@/components/url/url-shortener-try'
+import Image from 'next/image'
+
+export const Hero = () => {
+  return (
+    <div className="border-y-axis">
+      <Container className="border-x-axis">
+        <div className="flex flex-col items-center">
+          <Tiles className="mb-5 w-fit">Introducing Shorten.</Tiles>
+          <div className="mb-16">
+            <HeroTitle className="mb-5">Transform Every Link into a Growth Opportunity</HeroTitle>
+            <HeroSubTitle className="text-center">
+              Shorten, brand, and track your URLs with precision.
+              <br /> Powerful analytics and custom domains — built for creators, businesses, and
+              developers.
+            </HeroSubTitle>
+          </div>
+
+          <URLShortenerHome />
+        </div>
+
+        <div className="w-full h-full flex justify-center mt-10 ">
+          <Image
+            src="/demo-hero-img.webp"
+            alt="Hero Image"
+            priority
+            quality={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+            width={1000}
+            height={1000}
+            className="blur-sm"
+          />
+        </div>
+      </Container>
+    </div>
+  )
+}

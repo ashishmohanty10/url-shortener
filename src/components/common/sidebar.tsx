@@ -26,8 +26,8 @@ export function Sidebar() {
           href={item.href}
           key={item.id ?? item.href}
           className={cn(
-            'flex items-center gap-x-2 hover:bg-primary-foreground/50 rounded-md py-2 px-4 border border-primary-foreground/10 transition-colors',
-            item.href === pathname && 'bg-primary-foreground/50'
+            'flex items-center gap-x-2 hover:bg-card rounded-md py-2 px-4 border border-primary-foreground/10 transition-colors',
+            item.href === pathname && 'bg-card'
           )}
         >
           <item.icon className="w-5 h-5" />

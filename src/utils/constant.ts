@@ -1,5 +1,5 @@
 import { GitHubIcon, GoogleIcon } from '@/components/auth/o-auth-icons'
-import { ChartArea, CreditCard, Link2, ShieldHalf, User } from 'lucide-react'
+import { ChartArea, Link2, ShieldHalf, User } from 'lucide-react'
 import { ComponentProps, ElementType } from 'react'
 
 export const SUPPORTED_OAUTH_PROVIDERS = ['github', 'google'] as const
@@ -43,10 +43,22 @@ export const SIDEBAR_ITEMS = [
     icon: User,
     isPublic: true,
   },
+]
+
+export const NAVBAR_ITEMS = [
   {
-    name: 'Billing',
-    href: '/billing',
-    icon: CreditCard,
-    isPublic: true,
+    id: 1,
+    name: 'Features',
+    href: '#features',
+  },
+  {
+    id: 2,
+    name: 'Pricing',
+    href: '#pricing',
+  },
+  {
+    id: 3,
+    name: 'FAQ',
+    href: '#faqs',
   },
 ]

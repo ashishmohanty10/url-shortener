@@ -7,7 +7,7 @@ import { Footer } from '@/components/landing-page/footer'
 
 export default async function Home() {
   return (
-    <div className="">
+    <div>
       <Navbar />
       <Hero />
       <Features />

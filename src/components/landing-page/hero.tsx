@@ -13,15 +13,15 @@ export const Hero = () => {
             <HeroTitle className="mb-5">Transform Every Link into a Growth Opportunity</HeroTitle>
             <HeroSubTitle className="text-center">
               Shorten, brand, and track your URLs with precision.
-              <br /> Powerful analytics and custom domains — built for creators, businesses, and
-              developers.
+              <br className="hidden lg:block" /> Powerful analytics and custom domains — built for
+              creators, businesses, and developers.
             </HeroSubTitle>
           </div>
 
           <URLShortenerHome />
         </div>
 
-        <div className="w-full h-full flex justify-center mt-10 ">
+        <div className="w-full h-full flex justify-center mt-10">
           <Image
             src="/demo-hero-img.webp"
             alt="Hero Image"

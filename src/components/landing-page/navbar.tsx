@@ -15,7 +15,7 @@ export const Navbar = () => {
             <div className="text-2xl font-bold leading-none">ShortenURL</div>
           </div>
 
-          <div className="flex items-center gap-x-3">
+          <div className="lg:flex items-center gap-x-3 hidden">
             {NAVBAR_ITEMS.map(item => (
               <Link
                 scroll
@@ -29,7 +29,9 @@ export const Navbar = () => {
           </div>
         </div>
 
-        <AuthButton />
+        <div className="hidden lg:block">
+          <AuthButton />
+        </div>
       </Container>
     </div>
   )

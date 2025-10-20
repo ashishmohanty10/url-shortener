@@ -1,75 +1,97 @@
 'use client'
 
-import { CustomButton } from '@/components/common/custom-button'
+import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import { URLFormType, urlSchema } from '@/lib/zod-schema'
-import { shortenURLAction } from '@/server/url-shorten-action'
+import { Label } from '@/components/ui/label'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { creteLinkSchema, creteLinkSchemaType } from '@/lib/zod-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { Atom, BadgeInfo } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
-export function URLShortenerForm() {
-  // const [shortURL, setShortURL] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  const form = useForm<URLFormType>({
-    resolver: zodResolver(urlSchema),
+export const URLShortenerForm = () => {
+  const urlForm = useForm<creteLinkSchemaType>({
+    resolver: zodResolver(creteLinkSchema),
     defaultValues: {
-      url: '',
+      originalUrl: '',
+      shortCode: '',
+      tags: [],
     },
-    mode: 'onSubmit',
   })
-  const { isSubmitting } = form.formState
-  const onSubmit = async (values: URLFormType) => {
-    try {
-      const formData = new FormData()
-      formData.append('url', values.url)
-      const response = await shortenURLAction(formData)
-      if (response.success && response.data) {
-        // setShortURL(response.data.shortURL)
-        setError(null)
-      } else {
-        // setShortURL(null)
-        setError(response.error ?? 'Failed To shorten url')
-      }
-    } catch {
-      setError('Something went wrong')
-    }
-  }
+
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-5 items-center gap-x-4">
+    <div className="grid grid-cols-4 gap-x-2">
+      <div className="col-span-3">
+        <Form {...urlForm}>
+          <div className="flex flex-col space-y-5">
             <FormField
-              control={form.control}
-              name="url"
+              control={urlForm.control}
+              name="originalUrl"
               render={({ field }) => (
-                <FormItem className="col-span-4">
+                <FormItem>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Paste URL here..."
-                      className={cn(
-                        'w-full rounded-md border border-neutral-700 transition-colors',
-                        'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
-                        'placeholder:text-neutral-300'
-                      )}
-                    />
+                    <div className="flex flex-col space-y-3">
+                      <Label>Original URL</Label>
+                      <Input {...field} placeholder="Paste URL here..." />
+                    </div>
                   </FormControl>
                 </FormItem>
               )}
             />
 
-            <CustomButton type="submit" variant="primary" size="medium" isLoading={isSubmitting}>
-              Shorten Now!
-            </CustomButton>
+            <FormField
+              control={urlForm.control}
+              name="shortCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex flex-col space-y-3">
+                      <Label>Short Code</Label>
+                      <div className="flex items-center gap-x-2">
+                        <Input {...field} placeholder="Short Code" className="" />
+                        <Button>
+                          <Atom size={18} />
+                          Generate code
+                        </Button>
+                      </div>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={urlForm.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex flex-col space-y-3">
+                      <Label className="flex items-start gap-x-2">
+                        Tags
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <BadgeInfo size={16} />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Tags can be used to filter out links</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </Label>
+                      <Input {...field} />
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
-          {error && <div className="text-sm text-red-500 mt-2">{error}</div>}
-        </form>
-      </Form>
+        </Form>
+      </div>
+
+      <div className="col-span-1">QR</div>
     </div>
   )
 }

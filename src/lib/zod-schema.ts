@@ -82,6 +82,13 @@ export const profileImageSchema = z.object({
   avatar: fileSchema,
 })
 
+export const creteLinkSchema = z.object({
+  originalUrl: z.string().url('Please enter valid url'),
+  shortCode: z.string(),
+  tags: z.array(z.string()),
+})
+
+export type creteLinkSchemaType = z.infer<typeof creteLinkSchema>
 export type profileImageSchemaType = z.infer<typeof profileImageSchema>
 export type fileSchemaType = z.infer<typeof fileSchema>
 export type URLFormType = z.infer<typeof urlSchema>

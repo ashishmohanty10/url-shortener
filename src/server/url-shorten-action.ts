@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db'
+import { prisma } from '@/lib/prisma'
 import { urlSchema } from '@/lib/zod-schema'
 import { nanoid } from 'nanoid'
 import { BASE_URL } from '@/utils/constant'

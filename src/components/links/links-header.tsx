@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { URLShortenerForm } from '@/components/url/url-shortener-form'
 import { Link2 } from 'lucide-react'
 
 export function LinkHeader() {
@@ -27,12 +28,9 @@ export function LinkHeader() {
 
         <DialogContent>
           <DialogHeader>Links</DialogHeader>
-          <div>Add Links here</div>
+          <URLShortenerForm />
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Create Link</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

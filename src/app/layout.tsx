@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Roboto } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/common/theme-provider'
 import { Toaster } from 'sonner'
 
-const roboto = Roboto({
+const inter = Inter({
   weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
 })
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${roboto.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

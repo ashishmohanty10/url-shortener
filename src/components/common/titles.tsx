@@ -28,7 +28,7 @@ export const HeroTitle = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'scroll-m-20 text-center font-extrabold text-balance tracking-tight text-foreground/90 text-2xl sm:text-3xl md:text-4xl lg:text-5xl',
+        'scroll-m-20 text-center font-extrabold text-balance tracking-tight text-foreground/90 text-2xl sm:text-4xl md:text-4xl lg:text-6xl',
         className
       )}
     >
@@ -41,7 +41,7 @@ export const HeroSubTitle = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'scroll-m-20 text-center text-balance font-semibold text-foreground/80 text-sm md:text-lg lg:tracking-tight',
+        'scroll-m-20 text-center text-balance font-semibold text-foreground/80 text-sm md:text-lg lg:text-xl lg:tracking-tight',
         className
       )}
     >
@@ -54,7 +54,7 @@ export const Paragraph = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'text-xs sm:text-base md:text-lg font-medium leading-relaxed text-balance',
+        'text-xs sm:text-base md:text-lg lg:text-xl font-semibold leading-relaxed text-balance',
         className
       )}
     >

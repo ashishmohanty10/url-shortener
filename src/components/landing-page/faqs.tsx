@@ -10,7 +10,7 @@ import {
 export function FAQS() {
   return (
     <div className="border-y-axis" id="faqs">
-      <Container className="border-x-axis flex flex-col justify-center items-center">
+      <Container className="border-x-axis flex flex-col justify-center items-center  md:py-24">
         <Tiles className="w-fit mb-8">FAQS</Tiles>
         <HeroTitle className="mb-3">Frequently Asked Questions</HeroTitle>
         <HeroSubTitle className="text-center mb-10">

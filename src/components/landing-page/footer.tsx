@@ -32,7 +32,7 @@ export const Footer = () => {
       </div>
 
       <div className="border-y-axis">
-        <Container className="border-x-axis">
+        <Container className="border-x-axis text-sm md:text-base">
           © 2026 Your Company, Inc. All rights reserved.
         </Container>
       </div>

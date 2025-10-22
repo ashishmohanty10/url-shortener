@@ -1,15 +1,6 @@
 import { cn } from '@/lib/utils'
+import { TitleTypes } from '@/utils/types'
 import React from 'react'
-
-interface TitleTypes {
-  children: React.ReactNode
-  className?: string
-}
-
-interface FeatureCardTypes {
-  children: React.ReactNode
-  className?: string
-}
 
 export const PageHeader = ({ children, className }: TitleTypes) => {
   return (
@@ -28,7 +19,7 @@ export const HeroTitle = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'scroll-m-20 text-center font-extrabold text-balance tracking-tight text-foreground/90 text-2xl sm:text-3xl md:text-4xl lg:text-5xl',
+        'scroll-m-20 text-center font-extrabold text-balance tracking-tight text-foreground/90 text-2xl sm:text-4xl md:text-4xl lg:text-6xl',
         className
       )}
     >
@@ -41,7 +32,7 @@ export const HeroSubTitle = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'scroll-m-20 text-center text-balance font-semibold text-foreground/80 text-sm md:text-lg lg:tracking-tight',
+        'scroll-m-20 text-center text-balance font-semibold text-foreground/80 text-sm md:text-lg lg:text-xl lg:tracking-tight',
         className
       )}
     >
@@ -54,7 +45,7 @@ export const Paragraph = ({ children, className }: TitleTypes) => {
   return (
     <div
       className={cn(
-        'text-xs sm:text-base md:text-lg font-medium leading-relaxed text-balance',
+        'text-xs sm:text-base md:text-lg lg:text-xl font-semibold leading-relaxed text-balance',
         className
       )}
     >
@@ -72,20 +63,6 @@ export const Tiles = ({ children, className }: TitleTypes) => {
       )}
     >
       {children}
-    </div>
-  )
-}
-
-export const FeatureCard = ({ children, className }: FeatureCardTypes) => {
-  return (
-    <div
-      className={cn(
-        'rounded-lg border border-neutral-800 w-full relative overflow-hidden bg-neutral-900/30',
-        className
-      )}
-    >
-      <div className="absolute bottom-0 -left-10 -z-10 w-44 h-48 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#0072E5_70%)] blur-md rotate-45 animate-gradient-wave"></div>
-      <div className="p-5 space-y-4">{children}</div>
     </div>
   )
 }

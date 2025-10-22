@@ -6,15 +6,17 @@ import Image from 'next/image'
 export const Hero = () => {
   return (
     <div className="border-y-axis">
-      <Container className="border-x-axis">
+      <Container className="border-x-axis py-24">
         <div className="flex flex-col items-center">
           <Tiles className="mb-5 w-fit">Introducing Shorten.</Tiles>
           <div className="mb-16">
-            <HeroTitle className="mb-5">Transform Every Link into a Growth Opportunity</HeroTitle>
+            <HeroTitle className="mb-5">
+              Transform Every Link <br /> Into a Growth Opportunity
+            </HeroTitle>
             <HeroSubTitle className="text-center">
               Shorten, brand, and track your URLs with precision.
-              <br className="hidden lg:block" /> Powerful analytics and custom domains — built for
-              creators, businesses, and developers.
+              <br className="hidden lg:block" /> Powerful analytics and custom domains{' '}
+              <br className="md:hidden" /> Built for Creators, Businesses, and Developers.
             </HeroSubTitle>
           </div>
 

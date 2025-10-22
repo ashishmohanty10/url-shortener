@@ -13,3 +13,15 @@ export interface UserPermissionStoreState {
   loading: boolean
   checkPermission: () => void
 }
+
+export interface TitleTypes {
+  children: React.ReactNode
+  className?: string
+}
+
+export interface Feature {
+  title: string
+  description: string
+  image: string
+  alt: string
+}

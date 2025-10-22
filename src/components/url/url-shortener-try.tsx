@@ -19,7 +19,7 @@ export function URLShortenerHome() {
     defaultValues: {
       url: '',
     },
-    mode: 'onSubmit',
+    mode: 'onChange',
   })
   const { isSubmitting } = form.formState
   const onSubmit = async (values: URLFormType) => {
@@ -42,18 +42,18 @@ export function URLShortenerHome() {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-5 items-center">
+          <div className="grid grid-cols-3 md:grid-cols-5 items-center gap-x-3">
             <FormField
               control={form.control}
               name="url"
               render={({ field }) => (
-                <FormItem className="col-span-4">
+                <FormItem className="col-span-2 md:col-span-4 flex justify-center">
                   <FormControl>
                     <Input
                       {...field}
                       placeholder="Paste URL here..."
                       className={cn(
-                        'max-w-md rounded-md border border-neutral-700 transition-colors',
+                        'max-w-xs md:max-w-full rounded-md border border-neutral-700 transition-colors',
                         'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
                         'placeholder:text-neutral-300'
                       )}

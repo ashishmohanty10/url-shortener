@@ -1,15 +1,6 @@
 import { cn } from '@/lib/utils'
+import { TitleTypes } from '@/utils/types'
 import React from 'react'
-
-interface TitleTypes {
-  children: React.ReactNode
-  className?: string
-}
-
-interface FeatureCardTypes {
-  children: React.ReactNode
-  className?: string
-}
 
 export const PageHeader = ({ children, className }: TitleTypes) => {
   return (
@@ -72,20 +63,6 @@ export const Tiles = ({ children, className }: TitleTypes) => {
       )}
     >
       {children}
-    </div>
-  )
-}
-
-export const FeatureCard = ({ children, className }: FeatureCardTypes) => {
-  return (
-    <div
-      className={cn(
-        'rounded-lg border border-neutral-800 w-full relative overflow-hidden bg-neutral-900/30',
-        className
-      )}
-    >
-      <div className="absolute bottom-0 -left-10 -z-10 w-44 h-48 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#0072E5_70%)] blur-md rotate-45 animate-gradient-wave"></div>
-      <div className="p-5 space-y-4">{children}</div>
     </div>
   )
 }

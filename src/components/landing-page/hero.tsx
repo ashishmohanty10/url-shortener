@@ -6,7 +6,7 @@ import Image from 'next/image'
 export const Hero = () => {
   return (
     <div className="border-y-axis">
-      <Container className="border-x-axis md:py-24">
+      <Container className="border-x-axis py-24">
         <div className="flex flex-col items-center">
           <Tiles className="mb-5 w-fit">Introducing Shorten.</Tiles>
           <div className="mb-16">

@@ -15,7 +15,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="grid min-h-screen bg-neutral-950 lg:grid-cols-[220px_1fr] w-full">
+    <div className="grid min-h-screen bg-neutral-950 lg:grid-cols-[250px_1fr] w-full">
       <div className="px-2 py-4">
         <div className="p-2 w-full h-full bg-gradient-to-br from-secondary/80 to-secondary/20 rounded-lg">
           <div className="flex flex-col h-full justify-between">

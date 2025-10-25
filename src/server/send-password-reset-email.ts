@@ -17,7 +17,7 @@ export async function sendPasswordResetEmail({ user, url }: { user: string; url:
       text: `Hello ${user},\n\nYou requested to reset your password. Click this link to reset it: ${url}\n\nIf you didn't request this, please ignore this email.\n\nThis link will expire in 24 hours.\n\nBest regards,\nYour App Team`,
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return {
       success: false,
       error: error,

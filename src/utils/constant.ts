@@ -26,19 +26,13 @@ export const SIDEBAR_ITEMS = [
   },
   {
     id: 2,
-    name: 'Stats',
-    href: '/stats',
-    icon: ChartArea,
-    isPublic: true,
-  },
-  {
-    id: 3,
     name: 'Flagged URLs',
     href: '/flagged',
     icon: ShieldHalf,
     isPublic: false,
   },
   {
+    id: 3,
     name: 'Profile',
     href: '/profile',
     icon: User,

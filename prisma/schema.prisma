@@ -82,17 +82,24 @@ model Verification {
 }
 
 model Url {
-  id          String   @id @default(cuid())
-  originalUrl String   @unique
-  shortUrl    String   @unique
-  clicks      Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String     @id @default(cuid())
+  originalUrl String     @unique
+  shortUrl    String     @unique
+  clicks      Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags        Tag[]      @relation("UrlTags")
+  clickLogs   UrlClick[]
+}
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  clickLogs UrlClick[]
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  urls      Url[]    @relation("UrlTags")
 }
 
 model UrlClick {

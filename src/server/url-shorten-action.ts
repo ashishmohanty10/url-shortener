@@ -1,24 +1,24 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
-import { urlSchema } from '@/lib/zod-schema'
 import { nanoid } from 'nanoid'
 import { BASE_URL } from '@/utils/constant'
 import { revalidatePath } from 'next/cache'
 import { ensureHttps } from '@/lib/utils'
 import { requireAuth } from '@/utils/auth-guard'
+import { creteLinkSchema, creteLinkSchemaType } from '@/lib/zod-schema'
 
 export const shortenURLAction = async (formData: FormData) => {
   const session = await requireAuth()
 
   try {
     const data = formData.get('url') as string
-    const validateUrl = urlSchema.safeParse({ url: data })
+    const validateUrl = creteLinkSchema.safeParse({ originalUrl: data })
 
     if (!validateUrl.success) {
       return {
         success: false,
-        error: validateUrl.error.flatten().fieldErrors.url?.[0] || 'Invalid URL',
+        error: validateUrl.error.flatten().fieldErrors.originalUrl?.[0] || 'Invalid URL',
       }
     }
 

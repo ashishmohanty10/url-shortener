@@ -57,10 +57,6 @@ export const signUpWithConfirmSchema = signUpSchema
     path: ['confirmPassword'],
   })
 
-export const urlSchema = z.object({
-  url: z.string().url('Please Enter valid URL'),
-})
-
 export const forgotPasswordSchema = z.object({
   email: z.string().trim().email({ message: 'Please enter a valid email address' }),
 })
@@ -83,15 +79,14 @@ export const profileImageSchema = z.object({
 })
 
 export const creteLinkSchema = z.object({
-  originalUrl: z.string().url('Please enter valid url'),
-  shortCode: z.string(),
+  originalUrl: z.string().url(),
+  shortCode: z.string().min(1),
   tags: z.array(z.string()),
 })
 
 export type creteLinkSchemaType = z.infer<typeof creteLinkSchema>
 export type profileImageSchemaType = z.infer<typeof profileImageSchema>
 export type fileSchemaType = z.infer<typeof fileSchema>
-export type URLFormType = z.infer<typeof urlSchema>
 export type SignInSchemaType = z.infer<typeof signInSchema>
 export type SignUpSchemaType = z.infer<typeof signUpSchema>
 export type SignUpWithConfirmSchemaType = z.infer<typeof signUpWithConfirmSchema>

@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
 const envSchema = z.object({
+  NEXT_PUBLIC_APP_PORT: z.string().min(1, 'NEXT_PUBLIC_APP_PORT is required'),
+
   // 🔐 Better Auth
   BETTER_AUTH_SECRET: z.string().min(1, 'BETTER_AUTH_SECRET is required'),
   BETTER_AUTH_URL: z.string().url('BETTER_AUTH_URL must be a valid URL'),
@@ -27,12 +29,16 @@ const envSchema = z.object({
     .min(1, 'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is required'),
   CLOUDINARY_API_KEY: z.string().min(1, 'CLOUDINARY_API_KEY is required'),
   CLOUDINARY_API_SECRET: z.string().min(1, 'CLOUDINARY_API_SECRET is required'),
-})
 
+  //Redis
+  REDIS_URL: z.string().min(1, 'REDIS_URL is required'),
+  TTL: z.string().min(1, 'TTL is required'),
+  QUEUE_NAME: z.string().min(1, 'QUEUE_NAME is required'),
+})
 const parsed = envSchema.safeParse(process.env)
 
 if (!parsed.success) {
-  console.error('\n❌ Invalid or missing environment variables:\n', parsed.error.format())
+  console.error(parsed.error)
   throw new Error('Environment validation failed. Check your .env file.')
 }
 

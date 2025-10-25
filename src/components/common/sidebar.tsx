@@ -20,7 +20,7 @@ export function Sidebar() {
   }
 
   return (
-    <nav className="flex flex-col gap-y-5 mt-10 px-2">
+    <nav className="flex flex-col gap-y-2 mt-10 px-2">
       {SIDEBAR_ITEMS.filter(item => item.isPublic || hasPermission).map(item => (
         <Link
           href={item.href}

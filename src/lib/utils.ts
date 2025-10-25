@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx'
+import { nanoid } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,4 +15,8 @@ export function ensureHttps(url: string) {
     return url.replace('http://', 'https://')
   }
   return url
+}
+
+export const generateRandomString = (length: number = 8) => {
+  return nanoid(length).toLowerCase()
 }

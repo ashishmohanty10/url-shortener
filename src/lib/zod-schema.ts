@@ -84,10 +84,15 @@ export const creteLinkSchema = z.object({
   tags: z.array(z.string()),
 })
 
+export const urlSchema = z.object({
+  url: z.string().url('Please Enter valid URL'),
+})
+
 export type creteLinkSchemaType = z.infer<typeof creteLinkSchema>
 export type profileImageSchemaType = z.infer<typeof profileImageSchema>
 export type fileSchemaType = z.infer<typeof fileSchema>
 export type SignInSchemaType = z.infer<typeof signInSchema>
+export type URLFormType = z.infer<typeof urlSchema>
 export type SignUpSchemaType = z.infer<typeof signUpSchema>
 export type SignUpWithConfirmSchemaType = z.infer<typeof signUpWithConfirmSchema>
 export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>

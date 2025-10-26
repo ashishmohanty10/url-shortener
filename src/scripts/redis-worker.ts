@@ -1,10 +1,10 @@
-import { env } from '@/lib/env'
 import { prisma } from '@/lib/prisma'
 import { redis } from '@/lib/redis'
 
-async function processClickQueue() {
+export async function processClickQueue() {
   while (true) {
-    const clickData = await redis.brpop(env.QUEUE_NAME, 0)
+    console.log('processClickQueue started')
+    const clickData = await redis.brpop(process.env.QUEUE_NAME!, 0)
     if (!clickData) continue
 
     const [, rawData] = clickData
@@ -16,11 +16,11 @@ async function processClickQueue() {
           urlId: click.urlId,
           ip: click.ip,
           referer: click.referer,
-          userAgent: click.userAgent,
+          userAgent: JSON.stringify(click.userAgent),
           acceptLanguage: click.acceptLanguage,
-          device: click.device,
-          os: click.os,
-          browser: click.browser,
+          device: JSON.stringify(click.device),
+          os: JSON.stringify(click.os),
+          browser: JSON.stringify(click.browser),
           isBot: click.isBot,
           country: click.country,
           city: click.city,

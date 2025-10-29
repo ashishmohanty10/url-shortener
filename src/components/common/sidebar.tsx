@@ -13,7 +13,7 @@ export function Sidebar() {
   const { hasPermission, checkPermission, loading } = userPermissionStore()
   useEffect(() => {
     checkPermission()
-  }, [])
+  }, [checkPermission])
 
   if (loading) {
     return <SidebarSkeleton />

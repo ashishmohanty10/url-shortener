@@ -19,7 +19,7 @@ export function UserButton() {
       <DropdownMenuTrigger asChild>
         <div className="w-full grid grid-cols-3 items-center card-bg p-2 rounded-lg hover:bg-secondary cursor-pointer transition-colors">
           <Avatar>
-            <AvatarImage src={session?.user.image || 'https://github.com/shadcn.png'} />
+            <AvatarImage src={session?.user.image || session?.user.name?.split(' ')[0].charAt(0)} />
             <AvatarFallback>{session?.user.name?.split(' ')[0].charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="col-span-2 flex flex-col">

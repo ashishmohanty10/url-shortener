@@ -74,8 +74,8 @@ export function Profile({ session, bg }: { session: Session; bg: string }) {
   }
 
   return (
-    <div className="h-full max-h-screen flex flex-col">
-      <div className={`h-[20rem] rounded-lg`} style={{ background: bg }}></div>
+    <div className="h-full flex flex-col">
+      <div className={`h-[14rem] rounded-lg`} style={{ background: bg }}></div>
 
       {/* Profile Header */}
       <div className="px-16">
@@ -123,14 +123,13 @@ export function Profile({ session, bg }: { session: Session; bg: string }) {
                               <FormField
                                 control={form.control}
                                 name="avatar"
-                                render={({ field: { value, onChange, ...fieldProps } }) => (
+                                render={({ field: { onChange } }) => (
                                   <FormItem>
                                     <FormControl>
                                       <Input
                                         type="file"
                                         accept="image/*"
                                         disabled={isUploading}
-                                        {...fieldProps}
                                         onChange={event => {
                                           const file = event.target.files?.[0]
                                           if (file) {
@@ -139,6 +138,7 @@ export function Profile({ session, bg }: { session: Session; bg: string }) {
                                             const url = URL.createObjectURL(file)
                                             setPreviewUrl(url)
                                           } else {
+                                            onChange(null)
                                             setPreviewUrl('')
                                           }
                                         }}
@@ -177,7 +177,7 @@ export function Profile({ session, bg }: { session: Session; bg: string }) {
         </div>
 
         {/* Profile Details */}
-        <div className="mt-16">
+        <div className="mt-12">
           <div className="card-bg rounded-lg p-4 flex flex-col space-y-5">
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Name</p>

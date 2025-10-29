@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { requireAuth } from '@/utils/auth-guard'
 import { cloudinary } from '@/lib/config'
 import { fileSchema } from '@/lib/zod-schema'
+import { UploadApiResponse } from 'cloudinary'
 
 export async function uploadImageToCloudinary(formData: FormData) {
   const session = await requireAuth()
@@ -23,12 +24,12 @@ export async function uploadImageToCloudinary(formData: FormData) {
   const buffer = Buffer.from(bytes)
 
   try {
-    const uploadResult: any = await new Promise((resolve, reject) => {
+    const uploadResult: UploadApiResponse = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: `url-shortener/${session.user.id}`, resource_type: 'image' },
         (error, result) => {
           if (error) reject(error)
-          else resolve(result)
+          else resolve(result!)
         }
       )
       uploadStream.end(buffer)
@@ -47,6 +48,6 @@ export async function uploadImageToCloudinary(formData: FormData) {
     }
   } catch (error) {
     console.error('Upload error:', error)
-    throw new Error('Upload failed')
+    throw new Error(error instanceof Error ? error.message : 'Upload failed')
   }
 }

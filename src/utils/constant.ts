@@ -1,6 +1,6 @@
 import { GitHubIcon, GoogleIcon } from '@/components/auth/o-auth-icons'
 import { Feature } from '@/utils/types'
-import { ChartArea, Link2, ShieldHalf, User } from 'lucide-react'
+import { Link2, ShieldHalf, User } from 'lucide-react'
 import { ComponentProps, ElementType } from 'react'
 
 export const SUPPORTED_OAUTH_PROVIDERS = ['github', 'google'] as const

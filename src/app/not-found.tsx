@@ -10,7 +10,7 @@ export default function NotFound() {
         <h1>404 – Oops! Page Not Found</h1>
       </div>
       <p className="text-gray-500 mb-4">
-        The page you are looking for doesn't exist or has been moved.
+        The page you are looking for doesn&apos;t exist or has been moved.
       </p>
       <Button asChild className="mt-6">
         <Link href="/links">Go Back to Links</Link>

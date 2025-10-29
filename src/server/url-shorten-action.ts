@@ -6,7 +6,7 @@ import { BASE_URL } from '@/utils/constant'
 import { revalidatePath } from 'next/cache'
 import { ensureHttps } from '@/lib/utils'
 import { requireAuth } from '@/utils/auth-guard'
-import { creteLinkSchema, creteLinkSchemaType } from '@/lib/zod-schema'
+import { creteLinkSchema } from '@/lib/zod-schema'
 
 export const shortenURLAction = async (formData: FormData) => {
   const session = await requireAuth()
@@ -22,8 +22,8 @@ export const shortenURLAction = async (formData: FormData) => {
       }
     }
 
-    const { url } = validateUrl.data
-    const correctUrl = ensureHttps(url)
+    const { originalUrl } = validateUrl.data
+    const correctUrl = ensureHttps(originalUrl)
 
     const existingUrl = await prisma.url.findUnique({
       where: {

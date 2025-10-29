@@ -5,7 +5,7 @@ import { redis } from '@/lib/redis'
 import STATUS_CODES from '@/utils/status-codes'
 import { NextResponse } from 'next/server'
 
-export async function GET(req: Request, { params }: { params: { code: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ code: string }> }) {
   try {
     const { code } = await params
     const cacheKey = `url:${code}`

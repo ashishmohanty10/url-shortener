@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -9,15 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
@@ -26,17 +24,28 @@ import { PaginationBar } from '@/components/links/pagination-bar'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  totalPages: number
+  currentPage: number
 }
 
-export function URLTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function URLTable<TData, TValue>({
+  columns,
+  data,
+  totalPages,
+  currentPage,
+}: DataTableProps<TData, TValue>) {
+  const router = useRouter()
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   })
+
+  const goToPage = (page: number) => {
+    router.push(`?page=${page}`)
+  }
 
   return (
     <div className="space-y-4">
@@ -55,39 +64,20 @@ export function URLTable<TData, TValue>({ columns, data }: DataTableProps<TData,
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-md border border-border">
-        <Table>
-          <TableHeader>
+      <div className="w-full overflow-y-auto max-h-[70vh] rounded-md border border-border">
+        <Table className="w-full">
+          <TableHeader className="sticky top-0 bg-neutral-900 z-10">
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  const canSort = header.column.getCanSort()
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <div
-                          className={cn(
-                            'flex items-center select-none',
-                            canSort && 'cursor-pointer'
-                          )}
-                          onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {canSort && (
-                            <ArrowUpDown
-                              className={cn(
-                                'ml-2 h-4 w-4 transition-all',
-                                header.column.getIsSorted()
-                                  ? 'text-foreground'
-                                  : 'text-muted-foreground opacity-50'
-                              )}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map(header => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center select-none">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </div>
+                    )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -95,7 +85,7 @@ export function URLTable<TData, TValue>({ columns, data }: DataTableProps<TData,
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={row.id}>
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -115,7 +105,16 @@ export function URLTable<TData, TValue>({ columns, data }: DataTableProps<TData,
       </div>
 
       {/* Pagination Controls */}
-      <PaginationBar table={table} />
+      <PaginationBar
+        table={{
+          getState: () => ({ pagination: { pageIndex: currentPage - 1 } }),
+          getPageCount: () => totalPages,
+          previousPage: () => goToPage(currentPage - 1),
+          nextPage: () => goToPage(currentPage + 1),
+          getCanPreviousPage: () => currentPage > 1,
+          getCanNextPage: () => currentPage < totalPages,
+        }}
+      />
     </div>
   )
 }

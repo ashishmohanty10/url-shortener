@@ -3,7 +3,21 @@
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
 
-export function PaginationBar({ table }: { table: any }) {
+interface PaginationBarProps {
+  table: {
+    getState: () => { pagination: { pageIndex: number } }
+    getPageCount: () => number
+    previousPage: () => void
+    nextPage: () => void
+    getCanPreviousPage: () => boolean
+    getCanNextPage: () => boolean
+  }
+}
+
+export function PaginationBar({ table }: PaginationBarProps) {
+  const currentPage = table.getState().pagination.pageIndex + 1
+  const totalPages = table.getPageCount()
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -14,14 +28,11 @@ export function PaginationBar({ table }: { table: any }) {
            w-full max-w-3xl
            bg-neutral-900/80 backdrop-blur-md border border-neutral-800
            rounded-xl shadow-lg px-5 py-3 z-50"
-      style={{
-        transformOrigin: 'center center',
-        x: '-50%',
-      }}
+      style={{ transformOrigin: 'center center', x: '-50%' }}
     >
       {/* Page Info */}
       <div className="text-sm text-neutral-300">
-        Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        Page {currentPage} of {totalPages}
       </div>
 
       {/* Controls */}

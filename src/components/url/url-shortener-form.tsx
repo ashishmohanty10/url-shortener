@@ -25,6 +25,7 @@ import { CustomButton } from '@/components/common/custom-button'
 
 import { ensureHttps, generateRandomString } from '@/lib/utils'
 import { creteLinkSchema, creteLinkSchemaType } from '@/lib/zod-schema'
+import { Separator } from '../ui/separator'
 
 export const URLShortenerForm = () => {
   const router = useRouter()
@@ -41,11 +42,10 @@ export const URLShortenerForm = () => {
     form.setValue('shortCode', generateRandomString())
   }
 
-  // 🧠 Auto-generate code when a valid URL is entered
   useEffect(() => {
     const subscription = form.watch((values, { name }) => {
       if (name === 'originalUrl' && values.originalUrl) {
-        const isValidUrl = /^https?:\/\/|^[\w-]+\.[a-z]{2,}/i.test(values.originalUrl)
+        const isValidUrl = ensureHttps(values.originalUrl)
         const currentCode = form.getValues('shortCode')
         if (isValidUrl && !currentCode) {
           generateShortCode()
@@ -111,6 +111,8 @@ export const URLShortenerForm = () => {
         <DialogHeader>
           <DialogTitle>Create a Short URL</DialogTitle>
         </DialogHeader>
+
+        <Separator />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-4">

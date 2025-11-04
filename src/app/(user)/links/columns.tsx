@@ -2,6 +2,7 @@
 
 import { CopyButton } from '@/components/common/copy-button'
 import { DeleteUrlModal } from '@/components/modals/delete-url-modal'
+import { QRcodeModal } from '@/components/modals/qr-code-modal'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -123,10 +124,9 @@ export const columns: ColumnDef<URLS>[] = [
               <Edit />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <QrCode />
-              QR Code
-            </DropdownMenuItem>
+
+            <QRcodeModal url={`${BASE_URL}/shorten/${url.shortUrl}`} />
+
             <DropdownMenuSeparator />
             <DeleteUrlModal id={url.id} password={url.shortUrl} />
           </DropdownMenuContent>

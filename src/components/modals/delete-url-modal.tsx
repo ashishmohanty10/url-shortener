@@ -49,8 +49,8 @@ export function DeleteUrlModal({ id, password }: { id: string; password: string 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="w-full flex items-center gap-2 px-2 py-1 hover:bg-red-500 hover:text-white transition-colors duration-75 rounded-sm">
-          <Trash2 className="mr-2 h-4 w-4" />
+        <button className="w-full flex items-center gap-2 px-2 py-1 hover:bg-red-500 hover:text-white transition-colors duration-75 rounded-sm text-sm">
+          <Trash2 className="h-4 w-4" />
           Delete
         </button>
       </DialogTrigger>

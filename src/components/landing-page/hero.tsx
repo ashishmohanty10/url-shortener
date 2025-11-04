@@ -1,6 +1,6 @@
 import { Container } from '@/components/common/container'
 import { HeroSubTitle, HeroTitle, Tiles } from '@/components/common/titles'
-import { URLShortenerHome } from '@/components/url/url-shortener-try'
+import { URLShortenerHome } from '@/components/url/url-shortener-home'
 import Image from 'next/image'
 
 export const Hero = () => {

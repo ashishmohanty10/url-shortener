@@ -21,6 +21,14 @@ export const auth = betterAuth({
       await sendPasswordResetEmail({ user: user.email!, url })
     },
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: ['USER', 'ADMIN'],
+        input: false,
+      },
+    },
+  },
   emailVerification: {
     autoSignInAfterVerification: true,
     sendOnSignUp: true,

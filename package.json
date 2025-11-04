@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test:worker": "tsx src/scripts/redis-worker.ts",
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"pnpm run test:worker\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -54,14 +54,17 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "22.15.29",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
     "postcss": "^8",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "prisma": "6.7.0",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.1",
     "tsx": "^4.20.6",
     "typescript": "5.8.3"

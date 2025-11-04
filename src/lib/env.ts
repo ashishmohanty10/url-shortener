@@ -34,6 +34,10 @@ const envSchema = z.object({
   REDIS_URL: z.string().min(1, 'REDIS_URL is required'),
   TTL: z.string().min(1, 'TTL is required'),
   QUEUE_NAME: z.string().min(1, 'QUEUE_NAME is required'),
+
+  // Redis Worker
+  BATCH_SIZE: z.string().min(1, 'BATCH_SIZE is required'),
+  FLUSH_INTERVAL_MS: z.string().min(1, 'FLUSH_INTERVAL_MS is required'),
 })
 const parsed = envSchema.safeParse(process.env)
 

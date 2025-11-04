@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test:worker": "tsx src/scripts/redis-worker.ts",
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"pnpm run test:worker\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -56,6 +56,7 @@
     "@types/node": "22.15.29",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
     "postcss": "^8",

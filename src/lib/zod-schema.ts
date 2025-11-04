@@ -88,6 +88,12 @@ export const urlSchema = z.object({
   url: z.string().url('Please Enter valid URL'),
 })
 
+export const deleteUrlSchema = z.object({
+  id: z.string().min(1, 'Invalid URL ID'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+export type deleteUrlSchemaType = z.infer<typeof deleteUrlSchema>
 export type creteLinkSchemaType = z.infer<typeof creteLinkSchema>
 export type profileImageSchemaType = z.infer<typeof profileImageSchema>
 export type fileSchemaType = z.infer<typeof fileSchema>

@@ -13,7 +13,7 @@
     "db:studio": "npx prisma studio",
     "db:deploy": "npx prisma migrate deploy",
     "db:reset": "npx prisma migrate reset",
-    "db:seed": "npx prisma db seed"
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@faker-js/faker": "^10.1.0",
     "@types/node": "22.15.29",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",

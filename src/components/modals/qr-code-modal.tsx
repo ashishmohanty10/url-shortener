@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { generateQRCodeDataURL } from '@/lib/qr-utils'
 import { Separator } from '../ui/separator'
+import { toast } from 'sonner'
 
 interface QRcodeModalProps {
   url: string
@@ -24,7 +25,7 @@ export function QRcodeModal({ url }: QRcodeModalProps) {
     if (!url) return
     generateQRCodeDataURL(url)
       .then(setQrCodeUrl)
-      .catch(err => console.error('QR generation failed:', err))
+      .catch(err => toast.error('QR generation failed:'))
   }, [url])
 
   const handleDownload = () => {

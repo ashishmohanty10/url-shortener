@@ -20,7 +20,6 @@ import Link from 'next/link'
 
 export type URLS = {
   id: string
-  // status: 'active' | 'inactive'
   originalUrl: string
   shortUrl: string
   createdAt: Date
@@ -32,15 +31,14 @@ export const columns: ColumnDef<URLS>[] = [
   {
     accessorKey: 'originalUrl',
     header: 'Original Url',
+    enableSorting: false,
     cell: ({ row }) => {
       const url = row.original
       return (
-        <Link
-          className="truncate w-full max-w-[200px] cursor-pointer hover:text-muted-foreground"
-          href={url.originalUrl}
-          target="_blank"
-        >
-          {url.originalUrl}
+        <Link className="" href={url.originalUrl} target="_blank">
+          <span className="block truncate w-full max-w-[200px] cursor-pointer hover:text-muted-foreground">
+            {url.originalUrl}
+          </span>
         </Link>
       )
     },
@@ -48,6 +46,7 @@ export const columns: ColumnDef<URLS>[] = [
   {
     accessorKey: 'shortUrl',
     header: 'Short Url',
+    enableSorting: false,
     cell: ({ row }) => {
       const url = row.original
       return (
@@ -67,6 +66,7 @@ export const columns: ColumnDef<URLS>[] = [
   {
     accessorKey: 'clicks',
     header: 'Clicks',
+    enableSorting: false,
     cell: ({ row }) => {
       const url = row.original
       return (
@@ -87,6 +87,7 @@ export const columns: ColumnDef<URLS>[] = [
   {
     accessorKey: 'tags',
     header: 'Tags',
+    enableSorting: false,
     cell: ({ row }) => {
       const url = row.original
       return url.tags.length > 0 ? (
@@ -108,6 +109,7 @@ export const columns: ColumnDef<URLS>[] = [
   {
     id: 'actions',
     enableHiding: false,
+    enableSorting: true,
     cell: ({ row }) => {
       const url = row.original
       return (

@@ -2,11 +2,13 @@
 
 import { URLS } from '@/app/(user)/links/columns'
 import { prisma } from '@/lib/prisma'
+import { redis } from '@/lib/redis'
 import { requireAuth } from '@/utils/auth-guard'
 
 export async function getData(
   page = 1,
-  limit = 15
+  limit = 15,
+  filter = ''
 ): Promise<{
   urls: URLS[]
   total: number
@@ -16,10 +18,26 @@ export async function getData(
   const userId = session.user.id
 
   const skip = (page - 1) * limit
+  const cacheKey = `urls:${userId}:page=${page}:filter=${filter || 'all'}`
+  const cached = await redis.get(cacheKey)
+  if (cached) return JSON.parse(cached)
+
+  const where = {
+    userId,
+    ...(filter
+      ? {
+          OR: [
+            { originalUrl: { contains: filter, mode: 'insensitive' as const } },
+            { shortUrl: { contains: filter, mode: 'insensitive' as const } },
+            { tags: { some: { name: { contains: filter, mode: 'insensitive' as const } } } },
+          ],
+        }
+      : {}),
+  }
 
   const [urls, total] = await Promise.all([
     prisma.url.findMany({
-      where: { userId },
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },
@@ -34,10 +52,9 @@ export async function getData(
         },
       },
     }),
-    prisma.url.count({ where: { userId } }),
+    prisma.url.count({ where }),
   ])
-
-  return {
+  const result = {
     urls: urls.map(url => ({
       id: url.id,
       originalUrl: url.originalUrl,
@@ -49,4 +66,7 @@ export async function getData(
     total,
     totalPages: Math.ceil(total / limit),
   }
+
+  await redis.setex(cacheKey, 60 * 5, JSON.stringify(result))
+  return result
 }

@@ -1,7 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Input } from '@/components/ui/input'
+import { PaginationBar } from '@/components/links/pagination-bar'
 import {
   Table,
   TableBody,
@@ -10,22 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
-import { PaginationBar } from '@/components/links/pagination-bar'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   totalPages: number
   currentPage: number
+  initialFilter: string
 }
 
 export function URLTable<TData, TValue>({
@@ -33,18 +28,36 @@ export function URLTable<TData, TValue>({
   data,
   totalPages,
   currentPage,
+  initialFilter,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const [filter, setFilter] = useState(initialFilter)
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
   })
 
+  // Debounced filter update → avoid reload on every keystroke
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const params = new URLSearchParams(searchParams)
+      params.set('page', '1')
+      if (filter) params.set('filter', filter)
+      else params.delete('filter')
+      router.push(`?${params.toString()}`)
+    }, 400)
+    return () => clearTimeout(timeout)
+  }, [filter])
+
   const goToPage = (page: number) => {
-    router.push(`?page=${page}`)
+    const params = new URLSearchParams(searchParams)
+    params.set('page', page.toString())
+    if (filter) params.set('filter', filter)
+    router.push(`?${params.toString()}`)
   }
 
   return (
@@ -52,9 +65,9 @@ export function URLTable<TData, TValue>({
       {/* Filter Input */}
       <div className="flex justify-between items-center mb-10">
         <Input
-          placeholder="Filter URLs..."
-          value={(table.getColumn('originalUrl')?.getFilterValue() as string) ?? ''}
-          onChange={event => table.getColumn('originalUrl')?.setFilterValue(event.target.value)}
+          placeholder="Search URLs..."
+          value={filter}
+          onChange={e => setFilter(e.target.value)}
           className={cn(
             'w-full rounded-md border border-neutral-700 transition-colors max-w-sm',
             'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
@@ -71,11 +84,7 @@ export function URLTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder ? null : (
-                      <div className="flex items-center select-none">
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                      </div>
-                    )}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -83,7 +92,7 @@ export function URLTable<TData, TValue>({
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows.length ? (
+            {data.length ? (
               table.getRowModel().rows.map(row => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map(cell => (
@@ -96,7 +105,7 @@ export function URLTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  No results found.
                 </TableCell>
               </TableRow>
             )}
@@ -104,7 +113,7 @@ export function URLTable<TData, TValue>({
         </Table>
       </div>
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       <PaginationBar
         table={{
           getState: () => ({ pagination: { pageIndex: currentPage - 1 } }),

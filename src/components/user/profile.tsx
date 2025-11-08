@@ -27,7 +27,17 @@ import { profileImageSchema, profileImageSchemaType } from '@/lib/zod-schema'
 import Image from 'next/image'
 import { LogoutButton } from '../common/logout-button'
 
-export function Profile({ session, bg }: { session: Session; bg: string }) {
+export function Profile({
+  session,
+  bg,
+  count,
+  totalClicks,
+}: {
+  session: Session
+  bg: string
+  count: number
+  totalClicks: number
+}) {
   const [isUploading, setIsUploading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState(session?.user.image || '')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -169,10 +179,9 @@ export function Profile({ session, bg }: { session: Session; bg: string }) {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 items-center gap-x-2">
-            <StatCard label="Total Unique Clicks" value={2000} />
-            <StatCard label="Total Clicks" value={10000} />
-            <StatCard label="Total Shortened URLs" value={100} />
+          <div className="grid grid-cols-2 items-center gap-x-2">
+            <StatCard label="Total Shortened URLs" value={count} />
+            <StatCard label="Total Clicks" value={totalClicks} />
           </div>
         </div>
 

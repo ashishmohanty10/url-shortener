@@ -1,0 +1,25 @@
+'use server'
+
+import { prisma } from '@/lib/prisma'
+import { requireAuth } from '@/utils/auth-guard'
+
+export async function getProfileAnalyticsData() {
+  try {
+    await requireAuth()
+    const urlData = await prisma.url.aggregate({
+      _count: { id: true },
+      _sum: { clicks: true },
+    })
+
+    return {
+      count: urlData?._count.id ?? 0,
+      totalClicks: urlData?._sum.clicks ?? 0,
+    }
+  } catch (error) {
+    console.error('Failed to fetch analytics in profile:', error)
+    return {
+      success: false,
+      error: 'Something went wrong while fetching analytics profile.',
+    }
+  }
+}

@@ -28,7 +28,7 @@ export function SocialAuthButtons() {
     return (
       <Button
         key={provider}
-        className="bg-neutral-600 hover:bg-neutral-700 transition-colors"
+        className="bg-neutral-200 hover:bg-neutral-700 transition-colors"
         onClick={handleSubmit}
       >
         <Icon />

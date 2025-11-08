@@ -11,7 +11,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Shortened',
-  description: 'Generated shortened url which is easy to share and manage',
+  description: 'Transform Every Link Into a Growth Opportunity',
+  openGraph: {
+    title: 'Shortened',
+    description: 'Transform Every Link Into a Growth Opportunity',
+    images: ['/og.webp'],
+  },
 }
 
 export default function RootLayout({

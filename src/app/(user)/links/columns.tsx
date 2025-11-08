@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { BASE_URL } from '@/utils/constant'
 import { ColumnDef } from '@tanstack/react-table'
-import { Edit, MoreHorizontal, MousePointerClick, QrCode } from 'lucide-react'
+import { ArrowUpDown, Edit, MoreHorizontal, MousePointerClick } from 'lucide-react'
 import Link from 'next/link'
 
 export type URLS = {
@@ -99,7 +99,17 @@ export const columns: ColumnDef<URLS>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Created At
+          <ArrowUpDown />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const url = row.original
       return <div className="text-sm">{new Date(url.createdAt).toLocaleString('en-GB')}</div>

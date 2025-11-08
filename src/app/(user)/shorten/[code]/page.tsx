@@ -32,11 +32,11 @@ export async function generateMetadata({
     }
 
     return {
-      title: url.ogTitle ?? 'Your Default Title',
-      description: url.ogDescription ?? 'Your default description',
+      title: url.ogTitle ?? 'Shortened Link',
+      description: url.ogDescription ?? 'Link Shortened by using Shorten',
       openGraph: {
-        title: url.ogTitle ?? 'Your Default Title',
-        description: url.ogDescription ?? 'Your default description',
+        title: url.ogTitle ?? 'Shortened Link',
+        description: url.ogDescription ?? 'Link Shortened by using Shorten',
         images: [url.ogImage ?? DEFAULT_OG_IMAGE].filter(Boolean),
         url: `${DOMAIN}/${code}`,
       },

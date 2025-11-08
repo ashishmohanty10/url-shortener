@@ -3,11 +3,11 @@ import { z } from 'zod'
 const envSchema = z.object({
   NEXT_PUBLIC_APP_PORT: z.string().min(1, 'NEXT_PUBLIC_APP_PORT is required'),
 
-  // 🔐 Better Auth
+  // Better Auth
   BETTER_AUTH_SECRET: z.string().min(1, 'BETTER_AUTH_SECRET is required'),
   BETTER_AUTH_URL: z.string().url('BETTER_AUTH_URL must be a valid URL'),
 
-  // 🗄️ Database
+  // Database
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
 
   // 🔑 OAuth Providers
@@ -16,14 +16,14 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().min(1, 'GOOGLE_CLIENT_ID is required'),
   GOOGLE_CLIENT_SECRET: z.string().min(1, 'GOOGLE_CLIENT_SECRET is required'),
 
-  // 🌍 App URL
+  // App URL
   NEXT_PUBLIC_APP_URL: z.string().url('NEXT_PUBLIC_APP_URL must be a valid URL'),
 
-  // ✉️ Resend (email service)
+  // Resend (email service)
   RESEND_API_KEY: z.string().min(1, 'RESEND_API_KEY is required'),
   RESEND_FROM_EMAIL: z.string(),
 
-  // ☁️ Cloudinary
+  // Cloudinary
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z
     .string()
     .min(1, 'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is required'),

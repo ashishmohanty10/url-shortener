@@ -7,7 +7,7 @@ export const SUPPORTED_OAUTH_PROVIDERS = ['github', 'google'] as const
 export type SupportedOAuthProvider = (typeof SUPPORTED_OAUTH_PROVIDERS)[number]
 
 export const DOMAIN = ''
-export const DEFAULT_OG_IMAGE = ''
+export const DEFAULT_OG_IMAGE = '/dynamic-og.webp'
 
 export const SUPPORTED_OAUTH_PROVIDERS_DETAILS: Record<
   SupportedOAuthProvider,

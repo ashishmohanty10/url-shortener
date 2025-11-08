@@ -2,8 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { redis } from '@/lib/redis'
 import { env } from '@/lib/env'
 
-const BATCH_SIZE = Number(env.BATCH_SIZE) || 50
-const FLUSH_INTERVAL_MS = Number(env.FLUSH_INTERVAL_MS) || 5000
+const BATCH_SIZE = Number(env.BATCH_SIZE) || 100
+const FLUSH_INTERVAL_MS = Number(env.FLUSH_INTERVAL_MS) || 3000
 
 let clickBatch: any[] = []
 let flushTimeout: NodeJS.Timeout | null = null
@@ -16,53 +16,49 @@ async function flushBatch() {
 
   try {
     await prisma.$transaction(async tx => {
-      const created = await tx.urlClick.createMany({
+      await tx.urlClick.createMany({
         data: batch.map(click => ({
           urlId: click.urlId,
-          ip: click.ip,
-          referer: click.referer,
-          userAgent: JSON.stringify(click.userAgent),
-          acceptLanguage: click.acceptLanguage,
-          device: JSON.stringify(click.device),
-          os: JSON.stringify(click.os),
-          browser: JSON.stringify(click.browser),
-          isBot: click.isBot,
-          country: click.country,
-          city: click.city,
+          ip: click.ip || null,
+          referer: click.referer || null,
+          userAgent: click.userAgent ? JSON.stringify(click.userAgent) : null,
+          acceptLanguage: click.acceptLanguage || null,
+          device: click.device ? JSON.stringify(click.device) : null,
+          os: click.os ? JSON.stringify(click.os) : null,
+          browser: click.browser ? JSON.stringify(click.browser) : null,
+          isBot: click.isBot || false,
+          country: click.country || null,
+          city: click.city || null,
         })),
       })
 
-      // Increment click counts per URL
       const counts = batch.reduce<Record<string, number>>((acc, c) => {
         acc[c.urlId] = (acc[c.urlId] || 0) + 1
         return acc
       }, {})
 
-      // Update click counts
-      const updateResults = await Promise.all(
-        Object.entries(counts).map(async ([urlId, count]) => {
-          const updated = await tx.url.update({
+      await Promise.all(
+        Object.entries(counts).map(([urlId, count]) =>
+          tx.url.update({
             where: { id: urlId },
             data: { clicks: { increment: count } },
           })
-          return updated
-        })
+        )
       )
     })
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error('Failed to flush batch:', error)
     clickBatch.unshift(...batch)
   }
 }
 
 export async function processClickQueue() {
+  console.log('Click queue processor started')
   while (true) {
     try {
-      const clickData = await redis.brpop(env.QUEUE_NAME!, 0)
+      const clickData = await redis.brpop(env.QUEUE_NAME, 1)
 
-      if (!clickData) {
-        continue
-      }
+      if (!clickData) continue
 
       const [, rawData] = clickData
       const click = JSON.parse(rawData)
@@ -71,15 +67,36 @@ export async function processClickQueue() {
 
       if (clickBatch.length >= BATCH_SIZE) {
         await flushBatch()
-        if (flushTimeout) clearTimeout(flushTimeout)
-        flushTimeout = null
+        if (flushTimeout) {
+          clearTimeout(flushTimeout)
+          flushTimeout = null
+        }
       } else if (!flushTimeout) {
         flushTimeout = setTimeout(flushBatch, FLUSH_INTERVAL_MS)
       }
     } catch (error) {
-      console.error(error)
+      console.error('Error processing queue:', error)
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
   }
 }
 
-processClickQueue().catch(console.error)
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...')
+  await flushBatch()
+  await prisma.$disconnect()
+  await redis.quit()
+  process.exit(0)
+})
+
+process.on('SIGTERM', async () => {
+  console.log('Shutting down gracefully...')
+  await flushBatch()
+  await prisma.$disconnect()
+  await redis.quit()
+  process.exit(0)
+})
+
+if (require.main === module) {
+  processClickQueue().catch(console.error)
+}

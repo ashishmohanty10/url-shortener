@@ -38,6 +38,10 @@ const envSchema = z.object({
   // Redis Worker
   BATCH_SIZE: z.string().min(1, 'BATCH_SIZE is required'),
   FLUSH_INTERVAL_MS: z.string().min(1, 'FLUSH_INTERVAL_MS is required'),
+  GET_DATA_CACHE_TIME: z.string().min(1, 'GET_DATA_CACHE_TIME is required'),
+
+  // for seed.ts
+  USER_ID: z.string().min(1, 'USER_ID is required'),
 })
 const parsed = envSchema.safeParse(process.env)
 

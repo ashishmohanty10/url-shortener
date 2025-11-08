@@ -1,38 +1,72 @@
-'use client'
+import { prisma } from '@/lib/prisma'
+import { redirect, notFound } from 'next/navigation'
+import { headers } from 'next/headers'
+import type { Metadata } from 'next'
+import { enqueueClickAnalytics, getUrlData } from '@/utils/url-helper'
+import { DEFAULT_OG_IMAGE, DOMAIN } from '@/utils/constant'
 
-import { useEffect, useState } from 'react'
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ code: string }>
+}): Promise<Metadata> {
+  const { code } = await params
 
-export default function LinkPage({ params }: { params: Promise<{ code: string }> }) {
-  const [isRedirecting, setIsRedirecting] = useState(true)
+  try {
+    const url = await prisma.url.findUnique({
+      where: { shortUrl: code },
+      select: { ogTitle: true, ogDescription: true, ogImage: true },
+    })
 
-  useEffect(() => {
-    const redirectUrl = async () => {
-      try {
-        const { code } = await params
-        const response = await fetch(`/api/redirect/${code}`)
-        const data = await response.json()
-
-        if (data.originalUrl) {
-          window.location.href = data.originalUrl
-        } else {
-          setIsRedirecting(false)
-        }
-      } catch (error) {
-        console.error('Redirect error:', error)
-        setIsRedirecting(false)
+    if (!url) {
+      return {
+        title: 'Link not found',
+        description: 'The requested short link does not exist.',
+        robots: 'noindex, nofollow',
+        openGraph: {
+          title: 'Link not found',
+          description: 'The requested short link does not exist.',
+          images: DEFAULT_OG_IMAGE ? [DEFAULT_OG_IMAGE] : undefined,
+        },
       }
     }
 
-    redirectUrl()
-  }, [params])
+    return {
+      title: url.ogTitle ?? 'Your Default Title',
+      description: url.ogDescription ?? 'Your default description',
+      openGraph: {
+        title: url.ogTitle ?? 'Your Default Title',
+        description: url.ogDescription ?? 'Your default description',
+        images: [url.ogImage ?? DEFAULT_OG_IMAGE].filter(Boolean),
+        url: `${DOMAIN}/${code}`,
+      },
+    }
+  } catch (error) {
+    console.error('Error generating metadata:', error)
+    return {
+      title: 'Link Error',
+      description: 'Unable to load this short link. Please try again.',
+      robots: 'noindex, nofollow',
+    }
+  }
+}
 
-  return (
-    <div className="flex flex-col items-center justify-center h-full text-center">
-      {isRedirecting ? (
-        <p className="animate-pulse">Redirecting you to your destination...</p>
-      ) : (
-        <p className="text-red-500">Failed to redirect. Invalid link.</p>
-      )}
-    </div>
+export default async function LinkPage({ params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params
+  if (!code || typeof code !== 'string') {
+    return notFound()
+  }
+
+  const urlData = await getUrlData(code)
+
+  if (!urlData?.originalUrl) {
+    return notFound()
+  }
+
+  const headersList = await headers()
+  enqueueClickAnalytics(urlData.id, headersList).catch(err =>
+    console.error('Analytics tracking failed:', err)
   )
+
+  return redirect(urlData.originalUrl)
 }

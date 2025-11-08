@@ -1,10 +1,12 @@
 'use server'
 
 import { URLS } from '@/app/(user)/links/columns'
+import { env } from '@/lib/env'
 import { prisma } from '@/lib/prisma'
 import { redis } from '@/lib/redis'
 import { requireAuth } from '@/utils/auth-guard'
 
+const time = Number(env.GET_DATA_CACHE_TIME) || 300
 export async function getData(
   page = 1,
   limit = 15,
@@ -19,8 +21,14 @@ export async function getData(
 
   const skip = (page - 1) * limit
   const cacheKey = `urls:${userId}:page=${page}:filter=${filter || 'all'}`
-  const cached = await redis.get(cacheKey)
-  if (cached) return JSON.parse(cached)
+  try {
+    const cached = await redis.get(cacheKey)
+    if (cached) {
+      return JSON.parse(cached)
+    }
+  } catch (error) {
+    console.error('Redis get error:', error)
+  }
 
   const where = {
     userId,
@@ -67,6 +75,6 @@ export async function getData(
     totalPages: Math.ceil(total / limit),
   }
 
-  await redis.setex(cacheKey, 60 * 5, JSON.stringify(result))
+  await redis.setex(cacheKey, time, JSON.stringify(result))
   return result
 }

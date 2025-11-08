@@ -1,23 +1,31 @@
 import { UAParser } from 'ua-parser-js'
+import { headers as nextHeaders } from 'next/headers'
 
-export function extractClickMetadata(req: Request) {
+export function extractClickMetadataFromHeaders(h?: Headers | ReturnType<typeof nextHeaders>) {
+  const headers = (h as any) ?? nextHeaders()
   const ip =
-    req.headers.get('x-forwarded-for') ||
-    req.headers.get('cf-connecting-ip') ||
-    req.headers.get('x-real-ip')
-  const referer = req.headers.get('referer') || ''
-  const userAgent = req.headers.get('user-agent') || ''
-  const acceptLanguage = req.headers.get('accept-language') || ''
+    headers.get?.('x-forwarded-for') ||
+    headers.get?.('cf-connecting-ip') ||
+    headers.get?.('x-real-ip') ||
+    ''
+  const referer = headers.get?.('referer') || ''
+  const userAgent = headers.get?.('user-agent') || ''
+  const acceptLanguage = headers.get?.('accept-language') || ''
   const parser = new UAParser(userAgent)
+  const device = parser.getDevice() || { vendor: '', model: '', type: '' }
+  const os = parser.getOS() || { name: '', version: '' }
+  const browser = parser.getBrowser() || { name: '', version: '' }
 
   return {
     ip,
     referer,
-    userAgent: parser.getResult(),
+    userAgent,
     acceptLanguage,
-    device: parser.getDevice() || 'Unknown',
-    os: parser.getOS() || 'Unknown',
-    browser: parser.getBrowser() || 'Unknown',
+    device: device.type
+      ? `${device.vendor || ''} ${device.model || ''} ${device.type}`.trim()
+      : 'Unknown',
+    os: os.name ? `${os.name} ${os.version || ''}`.trim() : 'Unknown',
+    browser: browser.name ? `${browser.name} ${browser.version || ''}`.trim() : 'Unknown',
     isBot: /bot|crawler|spider|crawling/i.test(userAgent),
     country: '',
     city: '',

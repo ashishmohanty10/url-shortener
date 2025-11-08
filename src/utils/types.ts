@@ -30,3 +30,17 @@ export interface UrlData {
   id: string
   originalUrl: string
 }
+
+export interface DailyClick {
+  date: string
+  clicks: number
+}
+
+interface AnalyticsChartData {
+  date: string
+  clicks: number
+}
+
+export interface AnalyticsChartProps {
+  data: AnalyticsChartData[]
+}

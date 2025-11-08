@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const AuthButton = () => {
   return (
     <div className="flex items-center gap-x-3">
-      <Button asChild variant="outline" className="card-bg">
+      <Button asChild variant="outline" className="card-bg hover:bg-secondary">
         <Link href="/signin">Signin</Link>
       </Button>
       <Button asChild>

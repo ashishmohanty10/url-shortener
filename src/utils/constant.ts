@@ -1,6 +1,7 @@
 import { GitHubIcon, GoogleIcon } from '@/components/auth/o-auth-icons'
+import { ChartConfig } from '@/components/ui/chart'
 import { Feature } from '@/utils/types'
-import { Link2, ShieldHalf, User } from 'lucide-react'
+import { ChartPie, Link2, ShieldHalf, User } from 'lucide-react'
 import { ComponentProps, ElementType } from 'react'
 
 export const SUPPORTED_OAUTH_PROVIDERS = ['github', 'google'] as const
@@ -19,6 +20,23 @@ export const SUPPORTED_OAUTH_PROVIDERS_DETAILS: Record<
 
 export const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 
+export const chartConfig = {
+  clicks: {
+    label: 'Clicks',
+    color: 'hsl(var(--primary))',
+  },
+} satisfies ChartConfig
+
+export const TIME_RANGES = [
+  { value: '7d', label: 'Last 7 days', days: 7 },
+  { value: '30d', label: 'Last 30 days', days: 30 },
+  { value: '90d', label: 'Last 3 months', days: 90 },
+  { value: '180d', label: 'Last 6 months', days: 180 },
+  { value: '270d', label: 'Last 9 months', days: 270 },
+  { value: '365d', label: 'Last 12 months', days: 365 },
+  { value: 'all', label: 'All time', days: Infinity },
+]
+
 export const SIDEBAR_ITEMS = [
   {
     id: 1,
@@ -36,6 +54,13 @@ export const SIDEBAR_ITEMS = [
   },
   {
     id: 3,
+    name: 'Analytics',
+    href: '/analytics',
+    icon: ChartPie,
+    isPublic: true,
+  },
+  {
+    id: 4,
     name: 'Profile',
     href: '/profile',
     icon: User,

@@ -25,3 +25,8 @@ export interface Feature {
   image: string
   alt: string
 }
+
+export interface UrlData {
+  id: string
+  originalUrl: string
+}

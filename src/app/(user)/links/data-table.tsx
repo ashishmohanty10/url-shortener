@@ -41,7 +41,6 @@ export function URLTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
-  // Debounced filter update → avoid reload on every keystroke
   useEffect(() => {
     const timeout = setTimeout(() => {
       const params = new URLSearchParams(searchParams)

@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { ensureHttps, generateRandomString } from '@/lib/utils'
 import { creteLinkSchema } from '@/lib/zod-schema'
 import { requireAuth } from '@/utils/auth-guard'
+import { invalidateUrlCache } from '@/utils/cache-invalidator'
 import { BASE_URL } from '@/utils/constant'
 import STATUS_CODES from '@/utils/status-codes'
 import { NextResponse } from 'next/server'
@@ -25,50 +26,87 @@ export async function POST(req: Request) {
     }
 
     const { originalUrl, shortCode, tags } = validateUrl.data
-
     const correctUrl = ensureHttps(originalUrl)
 
-    const existingUrl = await prisma.url.findUnique({
-      where: { originalUrl: correctUrl },
-    })
+    const [existingUrl, existingShortCode] = await Promise.all([
+      prisma.url.findFirst({
+        where: {
+          originalUrl: correctUrl,
+          userId: session.user.id,
+        },
+      }),
+      shortCode
+        ? prisma.url.findUnique({
+            where: { shortUrl: shortCode },
+          })
+        : null,
+    ])
 
     if (existingUrl) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Url already exists',
-        },
+        { success: false, error: 'You have already shortened this URL' },
         { status: STATUS_CODES.CONFLICT }
       )
     }
 
+    if (existingShortCode) {
+      return NextResponse.json(
+        { success: false, error: 'This custom short code is already taken' },
+        { status: STATUS_CODES.CONFLICT }
+      )
+    }
+
+    let finalShortCode = shortCode || generateRandomString(8)
+
     const newUrl = await prisma.url.create({
       data: {
         originalUrl: correctUrl,
-        shortUrl: shortCode || generateRandomString(8),
-        user: {
-          connect: { id: session.user.id },
-        },
-        tags: {
-          connectOrCreate: tags?.map(tag => ({
-            where: { name: tag },
-            create: { name: tag },
-          })),
-        },
+        shortUrl: finalShortCode,
+        userId: session.user.id,
+        tags: tags?.length
+          ? {
+              connectOrCreate: tags.map(tag => ({
+                where: { name: tag.toLowerCase().trim() },
+                create: { name: tag.toLowerCase().trim() },
+              })),
+            }
+          : undefined,
       },
       include: {
         tags: true,
       },
     })
 
+    await invalidateUrlCache(session.user.id)
     const shortURL = `${BASE_URL}/shorten/${newUrl.shortUrl}`
 
-    return NextResponse.json({
-      success: true,
-      data: { shortURL, origianlUrl: correctUrl, tags: newUrl.tags.map(tag => tag.name) },
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id: newUrl.id,
+          shortURL,
+          originalUrl: correctUrl,
+          shortCode: newUrl.shortUrl,
+          tags: newUrl.tags.map(tag => tag.name),
+          createdAt: newUrl.createdAt,
+        },
+      },
+      { status: STATUS_CODES.CREATED }
+    )
   } catch (error) {
     console.error('Failed to shorten URL:', error)
-    return NextResponse.json({ success: false, error: 'Failed to shorten URL' }, { status: 500 })
+
+    if (error instanceof Error && 'code' in error && error.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'Short code already exists' },
+        { status: STATUS_CODES.CONFLICT }
+      )
+    }
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to shorten URL' },
+      { status: STATUS_CODES.INTERNAL_SERVER_ERROR }
+    )
   }
 }

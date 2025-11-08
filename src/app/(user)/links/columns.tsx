@@ -102,7 +102,7 @@ export const columns: ColumnDef<URLS>[] = [
     header: 'Created At',
     cell: ({ row }) => {
       const url = row.original
-      return <div className="text-sm">{url.createdAt.toLocaleString()}</div>
+      return <div className="text-sm">{new Date(url.createdAt).toLocaleString('en-GB')}</div>
     },
   },
 

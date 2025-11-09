@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
-    const session = await requireAuth()
+    const { user } = await requireAuth()
     const body = await req.json()
     const validateUrl = creteLinkSchema.safeParse(body)
 
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       prisma.url.findFirst({
         where: {
           originalUrl: correctUrl,
-          userId: session.user.id,
+          userId: user.id,
         },
       }),
       shortCode
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       data: {
         originalUrl: correctUrl,
         shortUrl: finalShortCode,
-        userId: session.user.id,
+        userId: user.id,
         tags: tags?.length
           ? {
               connectOrCreate: tags.map(tag => ({
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
       },
     })
 
-    await invalidateUrlCache(session.user.id)
+    await invalidateUrlCache(user.id)
     const shortURL = `${BASE_URL}/shorten/${newUrl.shortUrl}`
 
     return NextResponse.json(

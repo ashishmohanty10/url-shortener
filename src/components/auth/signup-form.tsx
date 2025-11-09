@@ -141,11 +141,11 @@ export function SignupForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <div className="group flex items-center rounded-md border border-neutral-700 pr-2 focus-within:border-neutral-500 focus-within:bg-neutral-900">
+                        <div className="group flex items-center rounded-md border border-neutral-700 pr-2 focus-within:border-neutral-200 focus-within:bg-neutral-900">
                           <Input
                             placeholder="Password"
                             {...field}
-                            className="border-none placeholder:text-neutral-300"
+                            className="border-none placeholder:text-neutral-300 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-none"
                             type={showPassword ? 'text' : 'password'}
                           />
 

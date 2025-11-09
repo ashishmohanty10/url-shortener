@@ -8,7 +8,7 @@ import { fileSchema } from '@/lib/zod-schema'
 import { UploadApiResponse } from 'cloudinary'
 
 export async function uploadImageToCloudinary(formData: FormData) {
-  const session = await requireAuth()
+  const { user } = await requireAuth()
   const file = formData.get('file') as File
 
   if (!file) {
@@ -26,7 +26,7 @@ export async function uploadImageToCloudinary(formData: FormData) {
   try {
     const uploadResult: UploadApiResponse = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: `url-shortener/${session.user.id}`, resource_type: 'image' },
+        { folder: `url-shortener/${user.id}`, resource_type: 'image' },
         (error, result) => {
           if (error) reject(error)
           else resolve(result!)
@@ -36,7 +36,7 @@ export async function uploadImageToCloudinary(formData: FormData) {
     })
 
     await prisma.user.update({
-      where: { id: session.user.id },
+      where: { id: user.id },
       data: { image: uploadResult.secure_url },
     })
 

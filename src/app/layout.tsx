@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/common/theme-provider'
 import { Toaster } from 'sonner'
+import NextTopLoader from 'nextjs-toploader'
 
 const inter = Inter({
   weight: ['400', '500', '600', '700', '800'],
@@ -11,7 +12,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Shortened',
-  description: 'Generated shortened url which is easy to share and manage',
+  description: 'Transform Every Link Into a Growth Opportunity',
+  openGraph: {
+    title: 'Shortened',
+    description: 'Transform Every Link Into a Growth Opportunity',
+    images: ['/og.webp'],
+  },
 }
 
 export default function RootLayout({
@@ -28,6 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader />
           {children}
           <Toaster richColors />
         </ThemeProvider>

@@ -16,8 +16,8 @@ export async function getData(
   total: number
   totalPages: number
 }> {
-  const session = await requireAuth()
-  const userId = session.user.id
+  const { user } = await requireAuth()
+  const userId = user.id
 
   const skip = (page - 1) * limit
   const cacheKey = `urls:${userId}:page=${page}:filter=${filter || 'all'}`

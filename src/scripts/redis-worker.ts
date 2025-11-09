@@ -8,6 +8,43 @@ const FLUSH_INTERVAL_MS = Number(env.FLUSH_INTERVAL_MS) || 1000
 let clickBatch: any[] = []
 let flushTimeout: NodeJS.Timeout | null = null
 
+async function fetchGeo(ip: string) {
+  if (!ip || ip === '::1' || ip === '127.0.0.1') {
+    return { country: null, city: null }
+  }
+
+  const cacheKey = `geo:${ip}`
+  try {
+    const cached = await redis.get(cacheKey)
+    if (cached) {
+      const data = JSON.parse(cached)
+      return { country: data.country, city: data.city }
+    }
+  } catch (err) {
+    console.error('Redis geo cache error:', err)
+  }
+
+  try {
+    const res = await fetch(`${env.GEO_API_BASE_URL}/${ip}`)
+    const data = await res.json()
+
+    if (!data.success) {
+      return { country: null, city: null }
+    }
+
+    const geo = {
+      country: data.country ?? null,
+      city: data.city ?? null,
+    }
+    await redis.setex(cacheKey, 60 * 60 * 24 * 7, JSON.stringify(geo))
+
+    return geo
+  } catch (err) {
+    console.error('Geo lookup failed:', err)
+    return { country: null, city: null }
+  }
+}
+
 async function flushBatch() {
   if (clickBatch.length === 0) return
 
@@ -57,11 +94,13 @@ export async function processClickQueue() {
   while (true) {
     try {
       const clickData = await redis.brpop(env.QUEUE_NAME, 1)
-
       if (!clickData) continue
 
       const [, rawData] = clickData
       const click = JSON.parse(rawData)
+      const geo = await fetchGeo(click.ip)
+      click.country = geo.country
+      click.city = geo.city
 
       clickBatch.push(click)
 

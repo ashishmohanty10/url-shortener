@@ -42,6 +42,9 @@ const envSchema = z.object({
 
   // for seed.ts
   USER_ID: z.string().min(1, 'USER_ID is required'),
+
+  // geo
+  GEO_API_BASE_URL: z.string().url('GEO_API_BASE_URL is required'),
 })
 const parsed = envSchema.safeParse(process.env)
 

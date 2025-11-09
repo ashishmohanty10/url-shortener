@@ -44,3 +44,9 @@ interface AnalyticsChartData {
 export interface AnalyticsChartProps {
   data: AnalyticsChartData[]
 }
+
+export interface AnalyticsItem {
+  shortUrl: string
+  clickLogs: { createdAt: Date }[]
+  clicksCount: number
+}

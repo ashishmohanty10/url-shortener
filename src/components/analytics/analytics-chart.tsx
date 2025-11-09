@@ -106,7 +106,7 @@ export function AnalyticsChart({ data }: AnalyticsChartProps) {
   }
 
   return (
-    <Card className="pt-0 card-bg hover:bg-secondary">
+    <Card className="pt-0 hover:card-bg hover:bg-secondary">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Clicks Over Time</CardTitle>

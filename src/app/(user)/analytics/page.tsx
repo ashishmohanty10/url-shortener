@@ -1,14 +1,14 @@
-import { AnalyticsCard } from '@/components/analytics/analytics-card'
+import { Analytics } from '@/components/analytics/analytics'
 import { PageHeader } from '@/components/common/titles'
-import { getUrlAnalytics } from '@/server/get-analytics-action'
+import { requireAuth } from '@/utils/auth-guard'
 
 export default async function AnalyticsPage() {
-  const { count, totalClicks, daily } = await getUrlAnalytics()
+  await requireAuth()
 
   return (
-    <div>
+    <div className="h-[95vh] overflow-y-auto">
       <PageHeader>Analytics</PageHeader>
-      <AnalyticsCard count={count ?? 0} totalClicks={totalClicks ?? 0} data={daily || []} />
+      <Analytics />
     </div>
   )
 }

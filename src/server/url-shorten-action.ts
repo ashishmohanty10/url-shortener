@@ -9,7 +9,7 @@ import { requireAuth } from '@/utils/auth-guard'
 import { creteLinkSchema } from '@/lib/zod-schema'
 
 export const shortenURLAction = async (formData: FormData) => {
-  const session = await requireAuth()
+  const { user } = await requireAuth()
 
   try {
     const data = formData.get('url') as string
@@ -44,7 +44,7 @@ export const shortenURLAction = async (formData: FormData) => {
         originalUrl: correctUrl,
         shortUrl: shortCode,
         user: {
-          connect: { id: session.user.id },
+          connect: { id: user.id },
         },
       },
     })

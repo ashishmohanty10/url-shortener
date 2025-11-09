@@ -16,8 +16,7 @@ export function ProfileSkeleton() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 items-center gap-x-2">
-            <Skeleton className="h-16 w-40" />
+          <div className="grid grid-cols-2 items-center gap-x-2">
             <Skeleton className="h-16 w-40" />
             <Skeleton className="h-16 w-40" />
           </div>

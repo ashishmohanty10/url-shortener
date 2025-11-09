@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/common/theme-provider'
 import { Toaster } from 'sonner'
+import NextTopLoader from 'nextjs-toploader'
 
 const inter = Inter({
   weight: ['400', '500', '600', '700', '800'],
@@ -33,6 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader />
           {children}
           <Toaster richColors />
         </ThemeProvider>

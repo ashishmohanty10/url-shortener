@@ -29,7 +29,7 @@ export const ShortLinkInsightsPanel = async () => {
   }
 
   return (
-    <Card className="h-full">
+    <Card className="h-full hover:card-bg">
       <CardHeader>
         <CardTitle>Insights</CardTitle>
       </CardHeader>

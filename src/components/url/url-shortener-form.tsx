@@ -33,7 +33,7 @@ export const URLShortenerForm = () => {
 
   const form = useForm<creteLinkSchemaType>({
     resolver: zodResolver(creteLinkSchema),
-    defaultValues: { originalUrl: '', shortCode: '', tags: [] },
+    defaultValues: { originalUrl: '', shortCode: '', tags: '' },
     mode: 'onChange',
   })
 
@@ -41,33 +41,14 @@ export const URLShortenerForm = () => {
     form.setValue('shortCode', generateRandomString())
   }
 
-  useEffect(() => {
-    const subscription = form.watch((values, { name }) => {
-      if (name === 'originalUrl' && values.originalUrl) {
-        const isValidUrl = ensureHttps(values.originalUrl)
-        const currentCode = form.getValues('shortCode')
-        if (isValidUrl && !currentCode) {
-          generateShortCode()
-        }
-      }
-    })
-    return () => subscription.unsubscribe()
-  }, [form])
-
   const onSubmit = async (data: creteLinkSchemaType) => {
     setSubmitting(true)
+    setOpen(true)
     try {
-      const tagsArray = data.tags
-        .join(',')
-        .split(',')
-        .map(t => t.trim())
-        .filter(Boolean)
-        .slice(0, 5)
-
       const finalData = {
         ...data,
         originalUrl: ensureHttps(data.originalUrl.trim()),
-        tags: tagsArray,
+        tags: data.tags?.trim() || '',
       }
 
       const response = await fetch('/api/shorten', {
@@ -78,18 +59,22 @@ export const URLShortenerForm = () => {
 
       const result = await response.json()
       if (result.success) {
-        toast.success('Link created successfully!')
         form.reset()
-        router.refresh()
         setOpen(false)
+        toast.success('Link created successfully!')
+        setTimeout(() => {
+          router.refresh()
+        }, 300)
       } else {
         toast.error(result.error || 'Failed to create link')
       }
     } catch (error) {
+      setOpen(false)
       console.error(error)
       toast.error('An unexpected error occurred')
     } finally {
       setSubmitting(false)
+      setOpen(false)
     }
   }
 
@@ -165,7 +150,7 @@ export const URLShortenerForm = () => {
               )}
             />
 
-            {/* Tags */}
+            {/* Tag */}
             <FormField
               control={form.control}
               name="tags"
@@ -173,29 +158,25 @@ export const URLShortenerForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <Label className="flex items-center gap-2">
-                    Tags
+                    Tag
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <BadgeInfo size={16} />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Comma-separated tags (max 5)</p>
+                          <p>Only letters and numbers allowed (Max 1)</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </Label>
                   <FormControl>
                     <Input
-                      value={Array.isArray(field.value) ? field.value.join(', ') : ''}
-                      placeholder="e.g. blog, promo, campaign"
+                      {...field}
+                      placeholder="e.g. blog or promo or campaign2024"
                       onChange={e => {
-                        const tagsArray = e.target.value
-                          .split(',')
-                          .map(t => t.trim())
-                          .filter(Boolean)
-                          .slice(0, 5)
-                        field.onChange(tagsArray)
+                        const cleanedValue = e.target.value.replace(/[^a-zA-Z0-9]/g, '')
+                        field.onChange(cleanedValue)
                       }}
                     />
                   </FormControl>

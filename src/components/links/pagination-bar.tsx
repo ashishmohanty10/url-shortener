@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
+import { useIsMobile } from '@/hooks/isMobile'
 
 interface PaginationBarProps {
   table: {
@@ -15,6 +16,7 @@ interface PaginationBarProps {
 }
 
 export function PaginationBar({ table }: PaginationBarProps) {
+  const isMobile = useIsMobile()
   const currentPage = table.getState().pagination.pageIndex + 1
   const totalPages = table.getPageCount()
 
@@ -25,7 +27,7 @@ export function PaginationBar({ table }: PaginationBarProps) {
       transition={{ duration: 0.4, ease: 'easeOut' }}
       className="fixed bottom-4 left-1/2
            flex items-center justify-between
-           w-full max-w-3xl
+           w-full max-w-sm md:max-w-3xl
            bg-neutral-900/80 backdrop-blur-md border border-neutral-800
            rounded-xl shadow-lg px-5 py-3 z-50"
       style={{ transformOrigin: 'center center', x: '-50%' }}
@@ -39,7 +41,7 @@ export function PaginationBar({ table }: PaginationBarProps) {
       <div className="space-x-2">
         <Button
           variant="outline"
-          size="lg"
+          size={isMobile ? 'sm' : 'lg'}
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -47,7 +49,7 @@ export function PaginationBar({ table }: PaginationBarProps) {
         </Button>
         <Button
           variant="outline"
-          size="lg"
+          size={isMobile ? 'sm' : 'lg'}
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >

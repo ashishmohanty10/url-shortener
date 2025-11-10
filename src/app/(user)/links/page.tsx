@@ -15,7 +15,7 @@ export default async function DashboardPage(props: {
   const { urls, totalPages } = await getData(page, 15, filter)
 
   return (
-    <div className="px-2 max-h-screen space-y-5">
+    <div className="px-2 space-y-5 lg:space-y-10 w-full">
       <LinkHeader />
       <URLTable
         columns={columns}

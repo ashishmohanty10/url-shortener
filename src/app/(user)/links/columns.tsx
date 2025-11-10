@@ -36,7 +36,7 @@ export const columns: ColumnDef<URLS>[] = [
       const url = row.original
       return (
         <Link className="" href={url.originalUrl} target="_blank">
-          <span className="block truncate w-full max-w-[200px] cursor-pointer hover:text-muted-foreground">
+          <span className="block truncate w-60 cursor-pointer hover:text-muted-foreground">
             {url.originalUrl}
           </span>
         </Link>
@@ -52,7 +52,7 @@ export const columns: ColumnDef<URLS>[] = [
       return (
         <div className="flex items-center gap-2">
           <Link
-            className="flex items-center gap-2 cursor-pointer hover:text-muted-foreground"
+            className="cursor-pointer hover:text-muted-foreground w-60 truncate whitespace-nowrap overflow-hidden text-ellipsis"
             href={`${BASE_URL}/shorten/${url.shortUrl}`}
             target="_blank"
           >

@@ -1,6 +1,5 @@
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
-import { PrismaClient } from '../../prisma/generated/prisma'
 import { nextCookies } from 'better-auth/next-js'
 import { admin } from 'better-auth/plugins'
 import { createAuthMiddleware } from 'better-auth/api'
@@ -8,8 +7,8 @@ import { sendPasswordResetEmail } from '@/server/send-password-reset-email'
 import { sendEmailVerification } from '@/server/send-email-verification'
 import { sendWelcomeEmail } from '@/server/send-welcome-email'
 import { env } from './env'
+import { prisma } from './prisma'
 
-const prisma = new PrismaClient()
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',

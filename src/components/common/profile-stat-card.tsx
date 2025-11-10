@@ -9,8 +9,8 @@ export function StatCard({ label, value, className }: StatCardProps) {
         className
       )}
     >
-      <div className="text-sm text-muted-foreground mb-2">{label}</div>
-      <div className="text-2xl font-semibold">{value}</div>
+      <div className="text-xs md:text-sm text-muted-foreground mb-2 text-center">{label}</div>
+      <div className="text-lg md:text-2xl font-semibold text-center">{value}</div>
     </div>
   )
 }

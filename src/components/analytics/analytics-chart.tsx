@@ -13,10 +13,11 @@ import {
 } from '@/components/ui/select'
 import { AnalyticsChartProps } from '@/utils/types'
 import { chartConfig, TIME_RANGES } from '@/utils/constant'
+import { useIsMobile } from '@/hooks/isMobile'
 
 export function AnalyticsChart({ data }: AnalyticsChartProps) {
   const [timeRange, setTimeRange] = useState('90d')
-
+  const isMobile = useIsMobile()
   const filteredData = useMemo(() => {
     const selectedRange = TIME_RANGES.find(range => range.value === timeRange)
     if (!selectedRange || timeRange === 'all') return data
@@ -109,8 +110,8 @@ export function AnalyticsChart({ data }: AnalyticsChartProps) {
     <Card className="pt-0 hover:card-bg hover:bg-secondary">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Clicks Over Time</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-center md:text-left">Clicks Over Time</CardTitle>
+          <CardDescription className="text-center md:text-left">
             Total clicks in selected period:{' '}
             <span className="font-semibold">{totalClicks.toLocaleString()}</span>
           </CardDescription>
@@ -143,10 +144,10 @@ export function AnalyticsChart({ data }: AnalyticsChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={10}
-              minTickGap={20}
-              interval={getTickInterval()}
+              minTickGap={isMobile ? 40 : 20}
+              interval={isMobile ? 'preserveStartEnd' : getTickInterval()}
               tickFormatter={getXAxisTickFormat}
-              fontSize={12}
+              fontSize={isMobile ? 10 : 12}
             />
             <YAxis
               tickLine={false}

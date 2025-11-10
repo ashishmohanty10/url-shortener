@@ -2,7 +2,6 @@
 
 import { NAVBAR_ITEMS } from '@/utils/constant'
 import { Container } from '../common/container'
-import Logo from '../icon/logo'
 import Link from 'next/link'
 import { AuthButton } from '@/components/common/auth-button'
 import { Button } from '@/components/ui/button'
@@ -10,6 +9,7 @@ import { Menu, X } from 'lucide-react'
 import { useIsMobile } from '@/hooks/isMobile'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import Logo from '../icon/logo'
 
 export const Navbar = () => {
   const isMobile = useIsMobile()

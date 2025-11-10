@@ -81,7 +81,12 @@ export const profileImageSchema = z.object({
 export const creteLinkSchema = z.object({
   originalUrl: z.string().url(),
   shortCode: z.string().min(1),
-  tags: z.array(z.string()),
+  tags: z
+    .string()
+    .optional()
+    .refine(val => !val || /^[a-zA-Z0-9]*$/.test(val), {
+      message: 'Tag can only contain letters and numbers',
+    }),
 })
 
 export const urlSchema = z.object({

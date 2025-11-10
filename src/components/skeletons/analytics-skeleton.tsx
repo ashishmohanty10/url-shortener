@@ -13,7 +13,7 @@ export function AnalyticsSkeleton() {
 
       <Skeleton className="h-80 w-full" />
 
-      <div className="grid grid-cols-2 items-center gap-x-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-x-5">
         <Card className="w-full card-bg mt-5 h-full">
           <CardHeader>
             <Skeleton className="h-6 w-48" />
@@ -36,7 +36,7 @@ export function AnalyticsSkeleton() {
           </div>
         </Card>
 
-        <Card className="w-full card-bg mt-5 h-[30rem]">
+        <Card className="w-full card-bg mt-5 h-full">
           <CardHeader>
             <Skeleton className="h-6 w-48" />
           </CardHeader>

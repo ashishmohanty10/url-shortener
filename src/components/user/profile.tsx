@@ -84,13 +84,13 @@ export function Profile({
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <div className={`h-[14rem] rounded-lg`} style={{ background: bg }}></div>
+    <div className="h-full flex flex-col w-full">
+      <div className={`h-[14rem] w-full rounded-lg`} style={{ background: bg }}></div>
 
       {/* Profile Header */}
-      <div className="px-16">
-        <div className="border-b border-neutral-750 flex items-center justify-between gap-x-4">
-          <div className="flex items-center gap-x-4">
+      <div className="lg:px-16">
+        <div className="lg:border-b border-neutral-750 lg:flex items-center justify-between gap-x-4">
+          <div className="flex items-center justify-center lg:justify-start gap-x-4">
             <div className="relative -translate-y-16">
               <Avatar className="size-48">
                 <AvatarImage src={avatarUrl} onError={handleImageError} className="bg-primary" />
@@ -190,12 +190,14 @@ export function Profile({
           <div className="card-bg rounded-lg p-4 flex flex-col space-y-5">
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Name</p>
-              <p className="text-xl text-foreground font-semibold">{session?.user.name}</p>
+              <p className="text-base md:text-xl text-foreground font-semibold">
+                {session?.user.name}
+              </p>
             </div>
 
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Email</p>
-              <p className="text-xl text-foreground font-semibold flex items-center gap-x-2">
+              <p className="text-base md:text-xl text-foreground font-semibold flex items-center gap-x-2">
                 {session?.user.email}{' '}
                 {session?.user.emailVerified ? (
                   <ShieldCheck className="text-blue-500" />
@@ -207,7 +209,7 @@ export function Profile({
 
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Member Since</p>
-              <p className="text-xl text-foreground font-semibold flex items-center gap-x-2">
+              <p className="text-base md:text-xl text-foreground font-semibold flex items-center gap-x-2">
                 <Calendar1 />
                 {session?.user.createdAt.toISOString().split('T')[0]}
               </p>
@@ -217,10 +219,6 @@ export function Profile({
           <div className="mt-4">
             <LogoutButton variant="destructive" />
           </div>
-
-          <p className="text-center mt-4 float-right">
-            Made with ❤️ by <a href="https://github.com/ashish">Ashish</a>
-          </p>
         </div>
       </div>
     </div>

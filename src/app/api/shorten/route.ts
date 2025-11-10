@@ -57,18 +57,19 @@ export async function POST(req: Request) {
     }
 
     let finalShortCode = shortCode || generateRandomString(8)
+    const tagName = tags?.trim().toLowerCase()
 
     const newUrl = await prisma.url.create({
       data: {
         originalUrl: correctUrl,
         shortUrl: finalShortCode,
         userId: user.id,
-        tags: tags?.length
+        tags: tagName
           ? {
-              connectOrCreate: tags.map(tag => ({
-                where: { name: tag.toLowerCase().trim() },
-                create: { name: tag.toLowerCase().trim() },
-              })),
+              connectOrCreate: {
+                where: { name: tagName },
+                create: { name: tagName },
+              },
             }
           : undefined,
       },

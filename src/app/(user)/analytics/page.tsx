@@ -6,7 +6,7 @@ export default async function AnalyticsPage() {
   await requireAuth()
 
   return (
-    <div className="h-[95vh] overflow-y-auto">
+    <div className="lg:h-[94vh] lg:overflow-y-auto w-full">
       <PageHeader>Analytics</PageHeader>
       <Analytics />
     </div>

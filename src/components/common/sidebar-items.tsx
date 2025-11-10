@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { SidebarSkeleton } from '../skeletons/sidebar-skeleton'
 import { userPermissionStore } from '@/hooks/user-permission'
 
-export function Sidebar() {
+export function SidebarItems() {
   const pathname = usePathname()
   const { hasPermission, checkPermission, loading } = userPermissionStore()
   useEffect(() => {

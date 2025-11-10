@@ -18,10 +18,10 @@ export const ShortLinkInsightsPanel = async () => {
         {entries.map(([key, value]) => (
           <div
             key={key}
-            className="flex items-center justify-between rounded-lg border p-3 text-sm"
+            className="grid grid-cols-3 items-center justify-between rounded-lg border p-3 text-xs md:text-sm"
           >
-            <span className="font-medium">{key}</span>
-            <span className="text-muted-foreground">{value} clicks</span>
+            <div className="font-medium col-span-2">{key}</div>
+            <div className="text-muted-foreground text-center">{value} clicks</div>
           </div>
         ))}
       </div>
@@ -38,19 +38,19 @@ export const ShortLinkInsightsPanel = async () => {
         <Tabs defaultValue="location">
           <TabsList className="grid grid-cols-4">
             <TabsTrigger value="location">
-              <MapPin className="h-4 w-4 mr-2" /> Location
+              <MapPin className="h-4 w-4 mr-2 hidden md:block" /> Location
             </TabsTrigger>
 
             <TabsTrigger value="device">
-              <Laptop className="h-4 w-4 mr-2" /> Device
+              <Laptop className="h-4 w-4 mr-2 hidden md:block" /> Device
             </TabsTrigger>
 
             <TabsTrigger value="os">
-              <Cpu className="h-4 w-4 mr-2" /> OS
+              <Cpu className="h-4 w-4 mr-2 hidden md:block" /> OS
             </TabsTrigger>
 
             <TabsTrigger value="browser">
-              <Globe className="h-4 w-4 mr-2" /> Browser
+              <Globe className="h-4 w-4 mr-2 hidden md:block" /> Browser
             </TabsTrigger>
           </TabsList>
 

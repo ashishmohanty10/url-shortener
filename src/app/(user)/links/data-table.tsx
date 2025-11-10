@@ -87,7 +87,7 @@ export function URLTable<TData, TValue>({
   return (
     <div className="space-y-4">
       {/* Filter Input */}
-      <div className="flex justify-between items-center mb-10">
+      <div className="flex justify-between items-center mb-10 gap-x-2 md:gap-x-0">
         <Input
           placeholder="Search URLs..."
           value={filter}
@@ -128,8 +128,8 @@ export function URLTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="w-full overflow-y-auto max-h-[70vh] rounded-md border border-border">
-        <Table className="w-full">
+      <div className="w-full overflow-hidden max-h-[70vh] rounded-md border border-border grid grid-cols-1">
+        <Table>
           <TableHeader className="sticky top-0 bg-neutral-900 z-10">
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>

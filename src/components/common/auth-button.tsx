@@ -1,15 +1,28 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export const AuthButton = () => {
+interface AuthButtonProps {
+  hideSignin?: boolean,
+  hideSignup?: boolean,
+  signupText?: string,
+  signinText?: string
+}
+
+export const AuthButton = ({ hideSignin, hideSignup, signinText, signupText }: AuthButtonProps) => {
   return (
     <div className="flex items-center gap-x-3">
-      <Button asChild variant="outline" className="card-bg hover:bg-secondary">
-        <Link href="/signin">Signin</Link>
-      </Button>
-      <Button asChild>
-        <Link href="/signup">Get Started</Link>
-      </Button>
+      {!hideSignin && (
+        <Button asChild variant="outline" className="card-bg hover:bg-secondary">
+          <Link href="/signin">{signinText || "Signin"}</Link>
+        </Button>
+      )}
+
+      {!hideSignup && (
+        <Button asChild>
+          <Link href="/signup">{signupText || "Signup"}</Link>
+        </Button>
+      )}
+
     </div>
   )
 }

@@ -14,7 +14,6 @@ import Logo from '../icon/logo'
 export const Navbar = () => {
   const isMobile = useIsMobile()
   const [isNavOpen, setIsNavOpen] = useState(false)
-
   const toggleNav = () => setIsNavOpen(prev => !prev)
 
   return (

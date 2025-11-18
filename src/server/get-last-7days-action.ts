@@ -42,7 +42,7 @@ export async function getLast7days(): Promise<AnalyticsResult> {
       fullList,
     }
   } catch (error) {
-    console.error('Failed to fetch last 7 days data')
+    console.error('Failed to fetch last 7 days data', error)
     return {
       success: false,
       error: 'Internal server error',

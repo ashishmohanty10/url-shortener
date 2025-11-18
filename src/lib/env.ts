@@ -41,7 +41,8 @@ const envSchema = z.object({
   GET_DATA_CACHE_TIME: z.string().min(1, 'GET_DATA_CACHE_TIME is required'),
 
   // for seed.ts
-  USER_ID: z.string().min(1, 'USER_ID is required'),
+  ADMIN_EMAIL: z.string().min(1, 'ADMIN_EMAIL is required'),
+  ADMIN_PASSWORD: z.string().min(1, 'ADMIN_PASSWORD is required'),
 
   // geo
   GEO_API_BASE_URL: z.string().url('GEO_API_BASE_URL is required'),

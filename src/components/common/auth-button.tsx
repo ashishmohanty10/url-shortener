@@ -13,13 +13,13 @@ export const AuthButton = ({ hideSignin, hideSignup, signinText, signupText }: A
     <div className="flex items-center gap-x-3">
       {!hideSignin && (
         <Button asChild variant="outline" className="card-bg hover:bg-secondary">
-          <Link href="/signin">{signinText || "Signin"}</Link>
+          <Link href="/signin">{signinText || "SignIn"}</Link>
         </Button>
       )}
 
       {!hideSignup && (
         <Button asChild>
-          <Link href="/signup">{signupText || "Signup"}</Link>
+          <Link href="/signup">{signupText || "SignUp"}</Link>
         </Button>
       )}
 

@@ -1,0 +1,27 @@
+# Dependencies (keep lockfile!)
+node_modules/
+.pnpm-store/
+
+# Build output
+.next/
+out/
+dist/
+
+# Logs
+*.log
+
+# Env files
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Editor files
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db

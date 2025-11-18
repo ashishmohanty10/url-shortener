@@ -58,7 +58,7 @@ export async function enqueueClickAnalytics(
   headersList: Awaited<ReturnType<typeof headers>>
 ): Promise<void> {
   try {
-    const clickData = extractClickMetadataFromHeaders(headersList)
+    const clickData = await extractClickMetadataFromHeaders(headersList)
 
     await redis.lpush(
       env.QUEUE_NAME,

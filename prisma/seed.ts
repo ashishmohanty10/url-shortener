@@ -1,15 +1,54 @@
 import { prisma } from '@/lib/prisma'
 import { generateRandomString } from '@/lib/utils'
 import { faker } from '@faker-js/faker'
+import { hashPassword } from 'better-auth/crypto'
 
 async function main() {
-  console.log('🌱 Seeding database with URLs and click data...')
-  const userId = process.env.USER_ID!
+  console.log('🌱 Seeding database...')
 
-  if (!userId) {
-    return 'No user id'
-  }
+  // Hash the admin password
+  const adminEmail = process.env.ADMIN_EMAIL!
+  const adminPassword = process.env.ADMIN_PASSWORD!
+  const hashedPassword = await hashPassword(adminPassword)
 
+  // Create or update admin user
+  const adminUser = await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: {
+      emailVerified: true,
+      role: 'admin',
+    },
+    create: {
+      email: adminEmail,
+      name: 'Admin User',
+      emailVerified: true,
+      role: 'admin',
+      image: faker.image.avatar(),
+    },
+  })
+
+  console.log(`✅ Created/Updated admin user: ${adminUser.email}`)
+
+  // Create or update the account with password
+  await prisma.account.upsert({
+    where: {
+      id: `${adminUser.id}-credential`,
+    },
+    update: {
+      password: hashedPassword,
+    },
+    create: {
+      id: `${adminUser.id}-credential`,
+      accountId: adminUser.id,
+      providerId: 'credential',
+      userId: adminUser.id,
+      password: hashedPassword,
+    },
+  })
+
+  console.log(`✅ Set admin password`)
+
+  // Generate URLs for the admin user
   const urls = Array.from({ length: 40 }).map(() => {
     const originalUrl = faker.internet.url() + '/' + faker.string.uuid()
     const shortUrl = generateRandomString(8)
@@ -18,7 +57,7 @@ async function main() {
       originalUrl,
       shortUrl,
       clicks: 0,
-      userId,
+      userId: adminUser.id,
       ogTitle: faker.lorem.sentence(),
       ogDescription: faker.lorem.sentences(2),
       ogImage: faker.image.urlPicsumPhotos(),
@@ -34,6 +73,7 @@ async function main() {
 
   console.log(`✅ Created ${createdUrls.length} URLs`)
 
+  // Generate click data for each URL
   const urlClickPromises = createdUrls.map(async url => {
     const numberOfClicks = faker.number.int({ min: 5, max: 500 })
 
@@ -76,7 +116,10 @@ async function main() {
   const totalClicks = clickCounts.reduce((sum, count) => sum + count, 0)
 
   console.log(`✅ Created ${totalClicks} UrlClick records`)
-  console.log('🎉 Seed complete! URLs and click data created successfully!')
+  console.log('🎉 Seed complete! Admin user and data created successfully!')
+  console.log(`📧 Admin email: ${adminUser.email}`)
+  console.log(`🔑 Admin password: ${adminPassword}`)
+  console.log(`🆔 Admin ID: ${adminUser.id}`)
 }
 
 main()

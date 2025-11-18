@@ -1,25 +1,22 @@
 import { UAParser } from 'ua-parser-js'
-import { headers as nextHeaders } from 'next/headers'
 
-export function extractClickMetadataFromHeaders(h?: Headers | ReturnType<typeof nextHeaders>) {
-  const headers = (h as any) ?? nextHeaders()
-
+export async function extractClickMetadataFromHeaders(h: Headers) {
   const ip =
-    headers.get?.('x-forwarded-for')?.split(',')[0].trim() ||
-    headers.get?.('cf-connecting-ip') ||
-    headers.get?.('x-real-ip') ||
+    h.get?.('x-forwarded-for')?.split(',')[0].trim() ||
+    h.get?.('cf-connecting-ip') ||
+    h.get?.('x-real-ip') ||
     ''
 
-  const referer = headers.get?.('referer') || ''
-  const userAgent = headers.get?.('user-agent') || ''
-  const acceptLanguage = headers.get?.('accept-language') || ''
+  const referer = h.get?.('referer') || ''
+  const userAgent = h.get?.('user-agent') || ''
+  const acceptLanguage = h.get?.('accept-language') || ''
 
   const parser = new UAParser(userAgent)
   const device = parser.getDevice()
   const os = parser.getOS()
   const browser = parser.getBrowser()
 
-  let deviceType =
+  const deviceType =
     device.type ||
     (/mobile|iphone|android|opera mini/i.test(userAgent)
       ? 'mobile'

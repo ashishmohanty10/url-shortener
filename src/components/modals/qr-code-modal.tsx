@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { generateQRCodeDataURL } from '@/lib/qr-utils'
 import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
+import Image from 'next/image'
 
 interface QRcodeModalProps {
   url: string
@@ -25,7 +26,7 @@ export function QRcodeModal({ url }: QRcodeModalProps) {
     if (!url) return
     generateQRCodeDataURL(url)
       .then(setQrCodeUrl)
-      .catch(err => toast.error('QR generation failed:'))
+      .catch(err => toast.error('QR generation failed:', err))
   }, [url])
 
   const handleDownload = () => {
@@ -55,7 +56,7 @@ export function QRcodeModal({ url }: QRcodeModalProps) {
 
         <div className="flex flex-col items-center justify-center pt-6">
           {qrCodeUrl ? (
-            <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
+            <Image src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
           ) : (
             <p className="text-sm text-muted-foreground">Generating QR code...</p>
           )}

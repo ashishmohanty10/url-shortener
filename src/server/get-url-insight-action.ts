@@ -48,7 +48,7 @@ export async function getUrlInsights() {
     }
 
     for (const c of clicks) {
-      const parseField = (field: any): any => {
+      const parseField = (field: string | null) => {
         if (!field) return null
         if (typeof field === 'string') {
           let cleaned = field.trim()

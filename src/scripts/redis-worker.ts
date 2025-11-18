@@ -1,11 +1,12 @@
 import { prisma } from '@/lib/prisma'
 import { redis } from '@/lib/redis'
 import { env } from '@/lib/env'
+import { UrlClick } from '../../prisma/generated/prisma'
 
 const BATCH_SIZE = Number(env.BATCH_SIZE) || 50
 const FLUSH_INTERVAL_MS = Number(env.FLUSH_INTERVAL_MS) || 1000
 
-let clickBatch: any[] = []
+let clickBatch: Array<UrlClick> = []
 let flushTimeout: NodeJS.Timeout | null = null
 
 async function fetchGeo(ip: string) {

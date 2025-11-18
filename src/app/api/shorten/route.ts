@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       )
     }
 
-    let finalShortCode = shortCode || generateRandomString(8)
+    const finalShortCode = shortCode || generateRandomString(8)
     const tagName = tags?.trim().toLowerCase()
 
     const newUrl = await prisma.url.create({

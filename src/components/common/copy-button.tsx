@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 export function CopyButton({ text, className }: { text: string; className?: string }) {
   const [isCopied, setIsCopied] = useState(false)
@@ -21,17 +23,24 @@ export function CopyButton({ text, className }: { text: string; className?: stri
   }
 
   return (
-    <Button
-      size="icon"
-      variant="ghost"
-      onClick={handleCopy}
-      className={cn('p-0 h-4 w-4', className)}
-    >
-      {isCopied ? (
-        <Check className="h-4 w-4 text-green-500" />
-      ) : (
-        <Copy className="h-4 w-4 hover:text-gray-400 duration-75 transition-colors" />
-      )}
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={handleCopy}
+            className={cn('p-2 items-center justify-center', className)}
+          >
+            {isCopied ? (
+              <Check className="h-4 w-4 text-green-500" />
+            ) : (
+              <Copy className="h-4 w-4 hover:text-gray-400 duration-75 transition-colors" />
+            )}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Copy</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }

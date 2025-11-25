@@ -6,7 +6,9 @@ import { cache } from 'react'
 // should only be use in server component
 export const requireAuth = cache(async () => {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) redirect('/signin')
+  if (!session) {
+    redirect('/signin')
+  }
   return session
 })
 

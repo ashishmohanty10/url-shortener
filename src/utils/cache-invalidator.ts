@@ -5,16 +5,16 @@ import { redis } from '@/lib/redis'
  * Call this after creating, updating, or deleting URLs
  */
 
-export async function invalidateUrlCache(userId: string): Promise<void> {
-  try {
-    const pattern = `urls:${userId}:*`
-    const keys = await redis.keys(pattern)
+export async function invalidateUrlCache(userId: string) {
+  const keys = await redis.keys(`urls:${userId}:*`)
+  if (keys.length > 0) {
+    await redis.del(...keys)
+  }
+}
 
-    if (keys.length > 0) {
-      await redis.del(...keys)
-      console.log(`Invalidated ${keys.length} cache entries for user ${userId}`)
-    }
-  } catch (error) {
-    console.error('Failed to invalidate cache:', error)
+export async function deleteByPattern(pattern: string) {
+  const keys = await redis.keys(pattern)
+  if (keys.length > 0) {
+    await redis.del(...keys)
   }
 }

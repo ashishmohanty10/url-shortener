@@ -1,13 +1,13 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { revalidatePath } from 'next/cache'
 import { requireAuth } from '@/utils/auth-guard'
 import { cloudinary } from '@/lib/config'
 import { fileSchema } from '@/lib/zod-schema'
 import { UploadApiResponse } from 'cloudinary'
 
-export async function uploadImageToCloudinary(formData: FormData) {
+export async function uploadImageToCloudinaryAction(formData: FormData) {
   const { user } = await requireAuth()
   const file = formData.get('file') as File
 

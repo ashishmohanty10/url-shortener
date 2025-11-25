@@ -46,6 +46,9 @@ const envSchema = z.object({
 
   // geo
   GEO_API_BASE_URL: z.string().url('GEO_API_BASE_URL is required'),
+
+  // google api
+  NEXT_PUBLIC_GEMINI_API_KEY: z.string().min(1, 'NEXT_PUBLIC_GEMINI_API_KEY is required'),
 })
 const parsed = envSchema.safeParse(process.env)
 

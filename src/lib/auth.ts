@@ -3,11 +3,11 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { nextCookies } from 'better-auth/next-js'
 import { admin } from 'better-auth/plugins'
 import { createAuthMiddleware } from 'better-auth/api'
-import { sendPasswordResetEmail } from '@/server/send-password-reset-email'
-import { sendEmailVerification } from '@/server/send-email-verification'
-import { sendWelcomeEmail } from '@/server/send-welcome-email'
+import { sendPasswordResetEmailAction } from '@/server/send-password-reset-email'
+import { sendEmailVerificationAction } from '@/server/send-email-verification'
+import { sendWelcomeEmailAction } from '@/server/send-welcome-email'
 import { env } from './env'
-import { prisma } from './prisma'
+import { prisma } from '@/db/prisma'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -17,13 +17,13 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
-      await sendPasswordResetEmail({ user: user.email!, url })
+      await sendPasswordResetEmailAction({ user: user.email!, url })
     },
   },
   user: {
     additionalFields: {
       role: {
-        type: ['USER', 'ADMIN'],
+        type: ['user', 'admin'],
         input: false,
       },
     },
@@ -32,7 +32,7 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmailVerification({ user: user.email!, url })
+      await sendEmailVerificationAction({ user: user.email!, url })
     },
   },
   plugins: [nextCookies(), admin()],
@@ -55,7 +55,7 @@ export const auth = betterAuth({
           email: ctx.body.email,
         }
         if (user) {
-          await sendWelcomeEmail(user)
+          await sendWelcomeEmailAction(user)
         }
       }
     }),

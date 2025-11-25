@@ -1,9 +1,9 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { requireAuth } from '@/utils/auth-guard'
 
-export async function getProfileAnalyticsData() {
+export async function getProfileAnalyticsDataAction() {
   try {
     await requireAuth()
     const urlData = await prisma.url.aggregate({

@@ -126,3 +126,5 @@ export const FEATURES_RIGHT: Feature[] = [
     alt: 'Smart SEO & OG Proxy',
   },
 ]
+
+export const alphabet = '23456789abcdefghjkmnpqrstuvwxyz' // 31 characters

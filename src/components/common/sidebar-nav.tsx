@@ -16,9 +16,9 @@ export const DesktopNav = () => {
           <div className="flex flex-col h-full">
             <Link
               href="/links"
-              className="flex items-center justify-center gap-x-4 py-4 group cursor-pointer"
+              className="flex items-center justify-center gap-x-4 py-4 cursor-pointer"
             >
-              <Logo className="size-7 leading-none group-hover:animate-spin" />
+              <Logo className="size-7 leading-none" />
 
               <div className="text-2xl font-bold leading-none">ShortenURL</div>
             </Link>

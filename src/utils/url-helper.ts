@@ -1,6 +1,6 @@
 import { env } from '@/lib/env'
 import { extractClickMetadataFromHeaders } from '@/lib/geo'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { headers } from 'next/headers'
 import { UrlData } from './types'
@@ -37,7 +37,7 @@ export async function getUrlData(code: string): Promise<UrlData | null> {
   }
 
   try {
-    const data = await prisma.url.findUnique({
+    const data = await prisma.url.findFirst({
       where: { shortUrl: code },
       select: { id: true, originalUrl: true },
     })

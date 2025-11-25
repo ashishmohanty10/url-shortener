@@ -8,7 +8,7 @@ export const userPermissionStore = create<UserPermissionStoreState>(set => ({
   checkPermission: async () => {
     try {
       const { data } = await authClient.getSession()
-      if (data?.user?.role === 'ADMIN') {
+      if (data?.user.role == 'admin') {
         set({ hasPermission: true, loading: false })
       } else {
         set({ hasPermission: false, loading: false })

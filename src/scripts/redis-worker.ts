@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { env } from '@/lib/env'
 import { UrlClick } from '../../prisma/generated/prisma'

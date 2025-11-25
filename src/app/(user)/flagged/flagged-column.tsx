@@ -1,26 +1,46 @@
 'use client'
 
+import { DeleteUrlByAdmin } from '@/components/admin/delete-url-by-admin'
 import { CopyButton } from '@/components/common/copy-button'
-import { DeleteUrlModal } from '@/components/modals/delete-url-modal'
 import { QRcodeModal } from '@/components/modals/qr-code-modal'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { BASE_URL } from '@/utils/constant'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Edit, MoreHorizontal, MousePointerClick } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, MousePointerClick } from 'lucide-react'
 import Link from 'next/link'
 import { FlagReasonDialog } from '@/components/modals/flag-reason-dialog'
-import { UserUrlType } from '@/utils/types'
+import { ChangeFlagCategoryDialog } from '@/components/modals/change-flag-category-dialog'
+import { AdminUrlType } from '@/utils/types'
 
-export const columns: ColumnDef<UserUrlType>[] = [
+export const flaggedColumns: ColumnDef<AdminUrlType>[] = [
+  {
+    accessorKey: 'user',
+    header: 'Created By',
+    cell: ({ row }) => {
+      const { user } = row.original
+      return (
+        <div className="flex items-center gap-x-3">
+          <Avatar>
+            <AvatarImage src={user.image || user.name?.split(' ')[0].charAt(0)} />
+            <AvatarFallback>{user.name?.split(' ')[0].charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="font-medium">{user.name}</span>
+            <span className="text-xs text-muted-foreground">{user.email}</span>
+          </div>
+        </div>
+      )
+    },
+  },
   {
     accessorKey: 'originalUrl',
     header: 'Original Url',
@@ -42,39 +62,33 @@ export const columns: ColumnDef<UserUrlType>[] = [
     enableSorting: false,
     cell: ({ row }) => {
       const url = row.original
-      console.log('url.flagCategory', url.flagCategory)
       return (
-        <div key={url.id} className="w-full">
-          {!url.approved ? (
-            <div className="flex items-center gap-x-4 w-full h-full">
-              <div className="truncate overflow-x-hidden h-fit w-60 text-2xl font-semibold tracking-tight leading-none flex items-center gap-x-1">
-                {Array.from(
-                  { length: `${BASE_URL}/shorten/${url.shortUrl}`.length },
-                  (_, i) => i
-                ).map((_, index) => (
-                  <div key={index} className="size-4">
-                    *
-                  </div>
-                ))}
-              </div>
-              <FlagReasonDialog
-                flagCategory={url.flagCategory || 'safe'}
-                flagReason={url.flagReason || 'No reason provided'}
-                showUserMsg={true}
-              />
-            </div>
-          ) : (
-            <div className="flex items-center gap-x-4">
-              <Link
-                className="cursor-pointer hover:text-muted-foreground w-60 truncate whitespace-nowrap overflow-hidden text-ellipsis"
-                href={`${BASE_URL}/shorten/${url.shortUrl}`}
-                target="_blank"
-              >
-                {BASE_URL}/shorten/{url.shortUrl}
-              </Link>
-              <CopyButton text={`${BASE_URL}/shorten/${url.shortUrl}`} />
-            </div>
-          )}
+        <div className="flex items-center gap-2">
+          <Link
+            className="cursor-pointer hover:text-muted-foreground w-60 truncate whitespace-nowrap overflow-hidden text-ellipsis"
+            href={`${BASE_URL}/shorten/${url.shortUrl}`}
+            target="_blank"
+          >
+            {BASE_URL}/shorten/{url.shortUrl}
+          </Link>
+          <CopyButton text={`${BASE_URL}/shorten/${url.shortUrl}`} />
+        </div>
+      )
+    },
+  },
+
+  {
+    accessorKey: 'flagCategory',
+    header: 'Flag Category',
+    enableSorting: false,
+    cell: ({ row }) => {
+      const url = row.original
+      return (
+        <div className="flex items-center gap-x-2">
+          <FlagReasonDialog
+            flagReason={url.flagReason}
+            flagCategory={url.flagCategory.toUpperCase()}
+          />
         </div>
       )
     },
@@ -152,15 +166,11 @@ export const columns: ColumnDef<UserUrlType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Edit />
-              Edit
-            </DropdownMenuItem>
-
+            <ChangeFlagCategoryDialog />
             <QRcodeModal url={`${BASE_URL}/shorten/${url.shortUrl}`} />
 
             <DropdownMenuSeparator />
-            <DeleteUrlModal id={url.id} password={url.shortUrl} />
+            <DeleteUrlByAdmin id={url.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

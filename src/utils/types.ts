@@ -50,3 +50,40 @@ export interface AnalyticsItem {
   clickLogs: { createdAt: Date }[]
   clicksCount: number
 }
+
+export type UserUrlType = {
+  id: string
+  originalUrl: string
+  shortUrl: string
+  createdAt: Date
+  clicks: number
+  tags: string[]
+  flagged: boolean
+  approved: boolean
+  flagReason: string
+  flagCategory: string
+}
+
+export type AdminUrlType = {
+  id: string
+  originalUrl: string
+  shortUrl: string
+  clicks: number
+  createdAt: Date
+  updatedAt?: Date
+  ogTitle?: string | null
+  ogDescription?: string | null
+  ogImage?: string | null
+  flagged: boolean
+  approved: boolean
+  flagReason: string
+  flagCategory: string
+  userId?: string
+  user: {
+    id: string
+    email: string
+    image?: string | null
+    name: string | null
+  }
+  tags: string[]
+}

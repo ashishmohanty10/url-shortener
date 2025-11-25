@@ -48,7 +48,7 @@ interface DataTableProps<TData, TValue> {
   initialFilter: string
 }
 
-export function URLTable<TData, TValue>({
+export function URLFlaggedTable<TData, TValue>({
   columns,
   data,
   totalPages,
@@ -63,7 +63,6 @@ export function URLTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  // Track previous search to detect real changes
   const prevSearchRef = useRef(initialFilter)
   const isFirstRender = useRef(true)
 
@@ -91,7 +90,6 @@ export function URLTable<TData, TValue>({
       return
     }
 
-    // Only reset to page 1 if search actually changed
     if (prevSearchRef.current === searchLinks) return
 
     const timeout = setTimeout(() => {
@@ -102,7 +100,6 @@ export function URLTable<TData, TValue>({
       else params.delete('search')
       router.push(`?${params.toString()}`, { scroll: false })
     }, 400)
-
     return () => clearTimeout(timeout)
   }, [searchLinks, router, searchParams])
 
@@ -115,6 +112,7 @@ export function URLTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
+      {/* Filter Input */}
       <div className="flex justify-between items-center mb-10 gap-x-2 md:gap-x-0">
         <Input
           placeholder="Search URLs..."
@@ -130,6 +128,24 @@ export function URLTable<TData, TValue>({
         <div className="flex items-center gap-x-4">
           <Select
             onValueChange={value => {
+              table.getColumn('flagCategory')?.setFilterValue(value === 'all' ? '' : value)
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by Flag Category" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="SUSPICIOUS">Suspicious</SelectItem>
+              <SelectItem value="MALICIOUS">Malicious</SelectItem>
+              <SelectItem value="INAPPROPRIATE">Inappropriate</SelectItem>
+              <SelectItem value="UNKNOWN">Unknown</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            onValueChange={value => {
               if (value === 'newest') {
                 setSorting([{ id: 'createdAt', desc: true }])
               } else if (value === 'oldest') {
@@ -141,7 +157,9 @@ export function URLTable<TData, TValue>({
               <SelectValue placeholder="Sort by date" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="newest" defaultChecked>
+                Newest First
+              </SelectItem>
               <SelectItem value="oldest">Oldest First</SelectItem>
             </SelectContent>
           </Select>
@@ -176,7 +194,7 @@ export function URLTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="w-full overflow-y-auto max-h-[70vh] rounded-md border border-border grid grid-cols-1">
+      <div className="w-full overflow-auto max-h-[70vh] rounded-md border border-border grid grid-cols-1">
         <Table>
           <TableHeader className="sticky top-0 bg-neutral-900 z-10">
             {table.getHeaderGroups().map(headerGroup => (

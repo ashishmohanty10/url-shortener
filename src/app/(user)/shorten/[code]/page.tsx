@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { redirect, notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import type { Metadata } from 'next'
@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { code } = await params
 
   try {
-    const url = await prisma.url.findUnique({
+    const url = await prisma.url.findFirst({
       where: { shortUrl: code },
       select: { ogTitle: true, ogDescription: true, ogImage: true },
     })

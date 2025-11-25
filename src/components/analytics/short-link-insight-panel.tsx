@@ -1,10 +1,10 @@
 import { Cpu, Globe, Laptop, MapPin } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { getUrlInsights } from '@/server/get-url-insight-action'
+import { getUrlInsightsAction } from '@/server/get-url-insight-action'
 
 export const ShortLinkInsightsPanel = async () => {
-  const data = await getUrlInsights()
+  const data = await getUrlInsightsAction()
 
   const renderList = (obj: Record<string, number>) => {
     const entries = Object.entries(obj)

@@ -1,6 +1,6 @@
 import { sendEmail } from '@/utils/send-email'
 
-export async function sendPasswordResetEmail({ user, url }: { user: string; url: string }) {
+export async function sendPasswordResetEmailAction({ user, url }: { user: string; url: string }) {
   try {
     return await sendEmail({
       to: user,

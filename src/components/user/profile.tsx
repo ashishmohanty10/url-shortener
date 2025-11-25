@@ -18,7 +18,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { uploadImageToCloudinary } from '@/server/upload-image-cloudinary'
+import { uploadImageToCloudinaryAction } from '@/server/upload-image-cloudinary'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
@@ -58,7 +58,7 @@ export function Profile({
       const formData = new FormData()
       formData.append('file', file)
 
-      const result = await uploadImageToCloudinary(formData)
+      const result = await uploadImageToCloudinaryAction(formData)
 
       if (result.success) {
         setAvatarUrl(result.imageUrl)

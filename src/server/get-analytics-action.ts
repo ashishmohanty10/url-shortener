@@ -1,10 +1,10 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { requireAuth } from '@/utils/auth-guard'
 import { fillMissingDays } from '@/utils/analytics-chart-helper'
 
-export async function getUrlAnalytics() {
+export async function getUrlAnalyticsAction() {
   const { user } = await requireAuth()
 
   try {

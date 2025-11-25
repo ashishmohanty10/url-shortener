@@ -13,27 +13,19 @@ import {
 } from '@/components/ui/dialog'
 import { Trash2 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { deleteUserUrlAction } from '@/server/delete-url-action'
 import { Separator } from '../ui/separator'
-import { Input } from '../ui/input'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { CopyButton } from '../common/copy-button'
+import { deleteUrlByAdminAction } from '@/server/admin/delete-url-by-admin'
 
-export function DeleteUrlModal({ id, password }: { id: string; password: string }) {
-  const [input, setInput] = useState('')
+export function DeleteUrlByAdmin({ id }: { id: string }) {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
   const handleDelete = async () => {
-    if (input.trim() !== `shorten/${password}`) {
-      toast.error('Please type the confirmation text exactly as shown.')
-      return
-    }
-
     setLoading(true)
-    const res = await deleteUserUrlAction({ id, password: input.trim() })
+    const res = await deleteUrlByAdminAction(id)
     setLoading(false)
 
     if (!res.success) {
@@ -65,24 +57,6 @@ export function DeleteUrlModal({ id, password }: { id: string; password: string 
               This action cannot be undone. Deleting this link will also remove all analytics data.
             </span>
           </DialogDescription>
-
-          <div className="flex flex-col gap-2">
-            <div className="text-sm text-muted-foreground flex items-center gap-1">
-              To confirm deletion, type{' '}
-              <span className="font-semibold text-white/90 cursor-text select-text flex items-center gap-1">
-                shorten/{password}
-                <CopyButton text={`shorten/${password}`} className="h-4 w-4 mr-1" />
-              </span>{' '}
-              below
-            </div>
-            <Input
-              placeholder="Type the confirmation text here"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              disabled={loading}
-              required
-            />
-          </div>
         </DialogHeader>
 
         <DialogFooter>

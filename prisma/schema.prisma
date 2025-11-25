@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider      = "prisma-client-js"
   output        = "./generated/prisma"
@@ -16,17 +10,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
+  id            String         @id @default(uuid())
+  email         String         @unique
   name          String?
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean        @default(false)
   image         String?
-  role          Role      @default(user)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  role          Role           @default(user)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
   urls          Url[]
+  reviewLogs    UrlReviewLog[]
 
   banned     Boolean?  @default(false)
   banReason  String?
@@ -83,19 +78,33 @@ model Verification {
 }
 
 model Url {
-  id            String     @id @default(cuid())
-  originalUrl   String     @unique
-  shortUrl      String     @unique
-  clicks        Int        @default(0)
+  id          String @id @default(cuid())
+  originalUrl String
+  shortUrl    String
+
+  clicks        Int     @default(0)
   ogTitle       String?
   ogDescription String?
   ogImage       String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  userId        String
-  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tags          Tag[]      @relation("UrlTags")
-  clickLogs     UrlClick[]
+
+  flagged      Boolean      @default(false)
+  approved     Boolean      @default(true)
+  flagReason   String
+  flagCategory FlagCategory @default(safe)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tags       Tag[]          @relation("UrlTags")
+  clickLogs  UrlClick[]
+  reviewLogs UrlReviewLog[]
+
+  @@unique([originalUrl, userId])
+  @@unique([shortUrl, userId])
+  @@index([shortUrl])
 }
 
 model Tag {
@@ -125,7 +134,36 @@ model UrlClick {
   url   Url    @relation(fields: [urlId], references: [id], onDelete: Cascade)
 }
 
+model UrlReviewLog {
+  id String @id @default(cuid())
+
+  urlId String
+  url   Url    @relation(fields: [urlId], references: [id], onDelete: Cascade)
+
+  action ReviewAction
+
+  reviewerId String?
+  reviewer   User?   @relation(fields: [reviewerId], references: [id])
+
+  timestamp DateTime @default(now())
+}
+
 enum Role {
   user
   admin
+}
+
+enum FlagCategory {
+  safe
+  suspicious
+  malicious
+  inappropriate
+  unknown
+}
+
+enum ReviewAction {
+  created
+  flagged
+  approved
+  rejected
 }

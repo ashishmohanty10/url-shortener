@@ -2,7 +2,7 @@ import { DailyClick } from '@/utils/types'
 import { StatCard } from '../common/profile-stat-card'
 import { AnalyticsChart } from './analytics-chart'
 import { ShortLinkAnalyticsCard } from './short-link-analytics-card'
-import { getUrlAnalytics } from '@/server/get-analytics-action'
+import { getUrlAnalyticsAction } from '@/server/get-analytics-action'
 import { ShortLinkInsightsPanel } from './short-link-insight-panel'
 
 interface AnalyticsProps {
@@ -12,7 +12,7 @@ interface AnalyticsProps {
 }
 
 export async function Analytics() {
-  const { count, totalClicks, daily }: AnalyticsProps = await getUrlAnalytics()
+  const { count, totalClicks, daily }: AnalyticsProps = await getUrlAnalyticsAction()
 
   return (
     <div className="mt-4 w-full">

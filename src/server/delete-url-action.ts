@@ -1,11 +1,11 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { deleteUrlSchema } from '@/lib/zod-schema'
 import { requireAuth } from '@/utils/auth-guard'
 
-export async function deleteUrl(data: { id: string; password: string }) {
+export async function deleteUserUrlAction(data: { id: string; password: string }) {
   await requireAuth()
 
   const parsed = deleteUrlSchema.safeParse(data)

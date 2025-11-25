@@ -1,4 +1,4 @@
-import { getLast7days } from '@/server/get-last-7days-action'
+import { getLast7daysAction } from '@/server/get-last-7days-action'
 import { Card, CardHeader, CardTitle } from '../ui/card'
 import AnalyticsDialogList from '../modals/analytics-dialog'
 import Link from 'next/link'
@@ -6,7 +6,7 @@ import { BASE_URL } from '@/utils/constant'
 import { CopyButton } from '../common/copy-button'
 
 export async function ShortLinkAnalyticsCard() {
-  const { fullList, topEight } = await getLast7days()
+  const { fullList, topEight } = await getLast7daysAction()
   const maxClicks = Math.max(...topEight.map(item => item.clickLogs.length), 1)
 
   return (

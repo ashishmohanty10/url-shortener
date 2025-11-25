@@ -1,9 +1,9 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { requireAuth } from '@/utils/auth-guard'
 
-export async function getUrlInsights() {
+export async function getUrlInsightsAction() {
   try {
     const { user } = await requireAuth()
     const urls = await prisma.url.findMany({

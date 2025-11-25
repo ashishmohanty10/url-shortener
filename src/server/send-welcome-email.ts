@@ -1,6 +1,6 @@
 import { sendEmail } from '@/utils/send-email'
 
-export async function sendWelcomeEmail(user: { name: string; email: string }) {
+export async function sendWelcomeEmailAction(user: { name: string; email: string }) {
   try {
     const data = await sendEmail({
       to: user.email,

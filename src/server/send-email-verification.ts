@@ -1,6 +1,6 @@
 import { sendEmail } from '@/utils/send-email'
 
-export async function sendEmailVerification({ user, url }: { user: string; url: string }) {
+export async function sendEmailVerificationAction({ user, url }: { user: string; url: string }) {
   try {
     const data = await sendEmail({
       to: user,

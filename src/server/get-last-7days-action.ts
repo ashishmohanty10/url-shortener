@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/db/prisma'
 import { requireAuth } from '@/utils/auth-guard'
 import { AnalyticsItem } from '@/utils/types'
 
@@ -11,7 +11,7 @@ interface AnalyticsResult {
   error?: string
 }
 
-export async function getLast7days(): Promise<AnalyticsResult> {
+export async function getLast7daysAction(): Promise<AnalyticsResult> {
   try {
     const { user } = await requireAuth()
     const sevenDaysAgo = new Date()

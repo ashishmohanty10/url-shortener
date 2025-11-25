@@ -33,8 +33,8 @@ export function DeleteUrlByAdmin({ id }: { id: string }) {
       return
     }
 
-    toast.success('URL deleted successfully!')
     setOpen(false)
+    toast.success('URL deleted successfully!')
     router.refresh()
   }
 

@@ -166,7 +166,7 @@ export const flaggedColumns: ColumnDef<AdminUrlType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <ChangeFlagCategoryDialog />
+            <ChangeFlagCategoryDialog urlId={url.id} currentCategory={url.flagCategory} />
             <QRcodeModal url={`${BASE_URL}/shorten/${url.shortUrl}`} />
 
             <DropdownMenuSeparator />

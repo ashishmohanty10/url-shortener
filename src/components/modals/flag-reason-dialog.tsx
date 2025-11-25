@@ -23,20 +23,26 @@ export const FlagReasonDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" style={{ backgroundColor: correctTextColor(flagCategory.toLowerCase()) }}>
+        <Button
+          size="sm"
+          className="text-center"
+          style={{ backgroundColor: correctTextColor(flagCategory.toLowerCase()) }}
+        >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    'flex items-center justify-between gap-x-3 text-white font-semibold w-24',
+                    'text-white font-semibold w-24 text-center',
                     showUserMsg && 'w-fit'
                   )}
                 >
-                  {!showUserMsg && <div className="text-xs">{flagCategory}</div>}
-                  <div className="col-span-1">
-                    <BadgeInfo size={8} />
-                  </div>
+                  {!showUserMsg && <div className="text-xs text-center">{flagCategory}</div>}
+                  {showUserMsg ? (
+                    <div className="col-span-1">
+                      <BadgeInfo size={8} />
+                    </div>
+                  ) : null}
                 </div>
               </TooltipTrigger>
               <TooltipContent>View Flag Reason</TooltipContent>

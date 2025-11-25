@@ -66,7 +66,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Failed to analyze URL safety',
+          error: 'Failed to analyze URL safety. Please try again',
         },
         { status: STATUS_CODES.INTERNAL_SERVER_ERROR }
       )

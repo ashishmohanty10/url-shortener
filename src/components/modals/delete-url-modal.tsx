@@ -14,7 +14,6 @@ import {
 import { Trash2 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { deleteUserUrlAction } from '@/server/delete-url-action'
-import { Separator } from '../ui/separator'
 import { Input } from '../ui/input'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -58,7 +57,6 @@ export function DeleteUrlModal({ id, password }: { id: string; password: string 
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete URL</DialogTitle>
-          <Separator />
           <DialogDescription className="mb-5">
             <span className="mb-2 block">Are you sure you want to delete this link?</span>
             <span className="mb-4 block text-sm text-muted-foreground">

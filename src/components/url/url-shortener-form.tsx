@@ -24,7 +24,6 @@ import { CustomButton } from '@/components/common/custom-button'
 
 import { ensureHttps, generateRandomString } from '@/lib/utils'
 import { creteLinkSchema, creteLinkSchemaType } from '@/lib/zod-schema'
-import { Separator } from '../ui/separator'
 
 export const URLShortenerForm = () => {
   const router = useRouter()

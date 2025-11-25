@@ -21,7 +21,7 @@ export async function getUserUrlAction(
   const userId = user.id
 
   const skip = (page - 1) * limit
-  const cacheKey = `urls:${userId}:page=${page}:filter=${filter || 'all'}`
+  const cacheKey = `urls:${userId}:page=${page}:limit=${limit}:filter=${filter || 'all'}`
 
   // Try to read from cache
   try {

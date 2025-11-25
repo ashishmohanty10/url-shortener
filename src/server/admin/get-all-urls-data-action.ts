@@ -27,7 +27,7 @@ export async function getAllUrlsDataAction(
     throw new Error('Unauthorized')
   }
 
-  const cacheKey = `admin:urls:page=${page}:limit=${limit}:search=${search || 'all'}:filter=${filter}`
+  const cacheKey = `admin:urls:page=${page}:limit=${limit}:filter=${filter || 'all'}:search=${search || 'all'}`
 
   try {
     const cached = await redis.get(cacheKey)

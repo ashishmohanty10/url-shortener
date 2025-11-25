@@ -3,6 +3,7 @@
 import { prisma } from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { requireAuth } from '@/utils/auth-guard'
+import { revalidatePath } from 'next/cache'
 
 export async function deleteUrlByAdminAction(id: string) {
   try {
@@ -15,22 +16,26 @@ export async function deleteUrlByAdminAction(id: string) {
       }
     }
 
-    const existingUrl = await prisma.url.findUnique({
-      where: { id },
-    })
+    const existingUrl = await prisma.url.findUnique({ where: { id } })
 
     if (!existingUrl) {
-      return {
-        success: false,
-        error: 'No such URL found',
-      }
+      return { success: false, error: 'No such URL found' }
     }
 
-    await prisma.url.delete({
-      where: { id },
-    })
+    await prisma.url.delete({ where: { id } })
 
-    await redis.del(`admin:urls:*`)
+    const adminKeys = await redis.keys('admin:urls:*')
+    if (adminKeys.length > 0) {
+      await redis.del(...adminKeys)
+    }
+
+    const userKeys = await redis.keys(`urls:${existingUrl.userId}:*`)
+    if (userKeys.length > 0) {
+      await redis.del(...userKeys)
+    }
+
+    revalidatePath('/flagged')
+
     return {
       success: true,
       message: 'URL deleted successfully',

@@ -1,12 +1,12 @@
 'use server'
 
 import { prisma } from '@/db/prisma'
-import { redis } from '@/lib/redis'
 import { deleteUrlSchema } from '@/lib/zod-schema'
 import { requireAuth } from '@/utils/auth-guard'
+import { invalidateUrlCache } from '@/utils/cache-invalidator'
 
 export async function deleteUserUrlAction(data: { id: string; password: string }) {
-  await requireAuth()
+  const { user } = await requireAuth()
 
   const parsed = deleteUrlSchema.safeParse(data)
   if (!parsed.success) {
@@ -28,7 +28,7 @@ export async function deleteUserUrlAction(data: { id: string; password: string }
     }
 
     await prisma.url.delete({ where: { id } })
-    await redis.del(`url:${id}`)
+    await invalidateUrlCache(user.id)
 
     return { success: true, error: null }
   } catch (error) {

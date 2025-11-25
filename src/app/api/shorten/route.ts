@@ -27,12 +27,12 @@ export async function POST(req: Request) {
     const { originalUrl, shortCode, tags } = validateUrl.data
 
     const correctUrl = ensureHttps(originalUrl)
-
-    // Check if THIS user already has this original URL
-    const existingUrl = await prisma.url.findFirst({
+    const existingUrl = await prisma.url.findUnique({
       where: {
-        originalUrl: correctUrl,
-        userId: user.id,
+        originalUrl_userId: {
+          originalUrl: correctUrl,
+          userId: user.id,
+        },
       },
     })
 
@@ -43,7 +43,6 @@ export async function POST(req: Request) {
       )
     }
 
-    // If custom short code provided, check if it exists globally
     if (shortCode) {
       const existingShortCode = await prisma.url.findFirst({
         where: {
@@ -87,7 +86,8 @@ export async function POST(req: Request) {
     const approved = safety.isSafe || false
     const flagged = safety.category !== 'safe'
     const flagReason = safety.reason || ''
-    const tagName = tags?.trim()?.toLowerCase()
+    const tagName = tags?.trim()
+    const flagCategory = safety.category
 
     // Generate unique short code with retry logic
     let finalShortCode = shortCode
@@ -125,6 +125,7 @@ export async function POST(req: Request) {
           approved,
           flagged,
           flagReason,
+          flagCategory,
 
           tags: tagName
             ? {

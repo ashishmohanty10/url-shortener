@@ -90,7 +90,7 @@ model Url {
   flagged      Boolean      @default(false)
   approved     Boolean      @default(true)
   flagReason   String
-  flagCategory FlagCategory @default(safe)
+  flagCategory FlagCategory @default(unknown)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -103,7 +103,7 @@ model Url {
   reviewLogs UrlReviewLog[]
 
   @@unique([originalUrl, userId])
-  @@unique([shortUrl, userId])
+  @@unique([shortUrl])
   @@index([shortUrl])
 }
 

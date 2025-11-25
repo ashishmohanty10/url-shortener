@@ -80,7 +80,7 @@ export const URLShortenerForm = () => {
 
   const originalUrl = form.watch('originalUrl')
   const shortCode = form.watch('shortCode')
-  const isSubmitEnabled = !!originalUrl && !!shortCode && form.formState.isValid
+  const isSubmitEnabled = !!originalUrl && !!shortCode
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -95,8 +95,6 @@ export const URLShortenerForm = () => {
         <DialogHeader>
           <DialogTitle>Create a Short URL</DialogTitle>
         </DialogHeader>
-
-        <Separator />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-4">

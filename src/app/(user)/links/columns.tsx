@@ -152,10 +152,6 @@ export const columns: ColumnDef<UserUrlType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Edit />
-              Edit
-            </DropdownMenuItem>
 
             <QRcodeModal url={`${BASE_URL}/shorten/${url.shortUrl}`} />
 

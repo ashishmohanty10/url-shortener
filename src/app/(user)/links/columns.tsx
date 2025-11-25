@@ -8,14 +8,13 @@ import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { BASE_URL } from '@/utils/constant'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Edit, MoreHorizontal, MousePointerClick } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, MousePointerClick } from 'lucide-react'
 import Link from 'next/link'
 import { FlagReasonDialog } from '@/components/modals/flag-reason-dialog'
 import { UserUrlType } from '@/utils/types'

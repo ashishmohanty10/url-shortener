@@ -42,15 +42,6 @@ export async function getUrlAnalyticsAction() {
     })).sort((a, b) => a.date.localeCompare(b.date))
 
     const fullDaily = fillMissingDays(daily, 365)
-
-    console.log('Analytics Data:', {
-      totalUrls: totals._count.id,
-      totalClicks: totals._sum.clicks,
-      dailyRecords: fullDaily.length,
-      daysWithClicks: daily.length,
-      totalDailyClicks: fullDaily.reduce((sum, day) => sum + day.clicks, 0),
-    })
-
     return {
       success: true,
       count: totals._count.id,

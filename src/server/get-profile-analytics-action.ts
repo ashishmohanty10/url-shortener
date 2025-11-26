@@ -14,8 +14,6 @@ export async function getProfileAnalyticsDataAction() {
       },
     })
 
-    console.log('urlData ---- ', urlData)
-
     return {
       count: urlData?._count.id ?? 0,
       totalClicks: urlData?._sum.clicks ?? 0,

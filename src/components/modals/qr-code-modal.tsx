@@ -56,7 +56,7 @@ export function QRcodeModal({ url }: QRcodeModalProps) {
 
         <div className="flex flex-col items-center justify-center pt-6">
           {qrCodeUrl ? (
-            <Image src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
+            <Image src={qrCodeUrl} alt="QR Code" className="w-48 h-48" width={100} height={100} />
           ) : (
             <p className="text-sm text-muted-foreground">Generating QR code...</p>
           )}

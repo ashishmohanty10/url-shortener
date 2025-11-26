@@ -5,11 +5,16 @@ import { requireAuth } from '@/utils/auth-guard'
 
 export async function getProfileAnalyticsDataAction() {
   try {
-    await requireAuth()
+    const { user } = await requireAuth()
     const urlData = await prisma.url.aggregate({
       _count: { id: true },
       _sum: { clicks: true },
+      where: {
+        userId: user.id,
+      },
     })
+
+    console.log('urlData ---- ', urlData)
 
     return {
       count: urlData?._count.id ?? 0,

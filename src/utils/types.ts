@@ -51,6 +51,12 @@ export interface AnalyticsItem {
   clicksCount: number
 }
 
+export interface AnalyticsProps {
+  count: number
+  totalClicks: number
+  daily: DailyClick[]
+}
+
 export type UserUrlType = {
   id: string
   originalUrl: string

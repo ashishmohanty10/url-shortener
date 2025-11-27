@@ -137,7 +137,7 @@ export function URLTable<TData, TValue>({
               }
             }}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground">
               <SelectValue placeholder="Sort by date" />
             </SelectTrigger>
             <SelectContent>

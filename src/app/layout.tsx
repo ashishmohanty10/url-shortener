@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Shortened',
     description: 'Transform Every Link Into a Growth Opportunity',
-    images: ['/og.webp'],
+    images: ['/og.png'],
   },
 }
 

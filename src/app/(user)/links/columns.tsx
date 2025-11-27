@@ -106,9 +106,21 @@ export const columns: ColumnDef<UserUrlType>[] = [
     cell: ({ row }) => {
       const url = row.original
       return url.tags?.length > 0 ? (
-        <Badge variant="success">{url.tags.join(', ')}</Badge>
+        <Badge
+          variant="success"
+          className="bg-green-500/10 hover:bg-green-500 group  transition-colors cursor-pointer"
+        >
+          <span className="text-green-400 group-hover:text-white transition-colors">
+            {url.tags.join(', ')}
+          </span>
+        </Badge>
       ) : (
-        <Badge variant="outline">No tags</Badge>
+        <Badge
+          variant="outline"
+          className="text-green-400 hover:bg-green-500 hover:text-white transition-colors"
+        >
+          No tags
+        </Badge>
       )
     },
   },

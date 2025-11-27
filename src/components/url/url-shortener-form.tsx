@@ -132,6 +132,7 @@ export const URLShortenerForm = () => {
                       <Button
                         type="button"
                         variant="secondary"
+                        disabled={submitting}
                         onClick={e => {
                           e.preventDefault()
                           generateShortCode()

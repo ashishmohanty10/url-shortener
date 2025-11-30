@@ -39,6 +39,7 @@ const envSchema = z.object({
   BATCH_SIZE: z.string().min(1, 'BATCH_SIZE is required'),
   FLUSH_INTERVAL_MS: z.string().min(1, 'FLUSH_INTERVAL_MS is required'),
   GET_DATA_CACHE_TIME: z.string().min(1, 'GET_DATA_CACHE_TIME is required'),
+  MAX_RETRY: z.string().min(1, 'MAX_RETRY is required'),
 
   // for seed.ts
   ADMIN_EMAIL: z.string().min(1, 'ADMIN_EMAIL is required'),

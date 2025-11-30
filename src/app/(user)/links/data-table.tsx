@@ -115,19 +115,19 @@ export function URLTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center mb-10 gap-x-2 md:gap-x-0">
+      <div className="md:flex justify-between items-center md:5 gap-x-2 md:gap-x-0">
         <Input
           placeholder="Search URLs..."
           value={searchLinks}
           onChange={e => setSearchLinks(e.target.value)}
           className={cn(
             'w-full rounded-md border border-neutral-700 transition-colors max-w-sm',
-            'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
+            'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
             'placeholder:text-neutral-300'
           )}
         />
 
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-4 mt-4 md:mt-0">
           <Select
             onValueChange={value => {
               if (value === 'newest') {

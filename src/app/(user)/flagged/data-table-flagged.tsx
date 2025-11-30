@@ -113,25 +113,25 @@ export function URLFlaggedTable<TData, TValue>({
   return (
     <div className="space-y-4">
       {/* Filter Input */}
-      <div className="flex justify-between items-center mb-10 gap-x-2 md:gap-x-0">
+      <div className="md:flex justify-between items-center mb-5 gap-x-2">
         <Input
           placeholder="Search URLs..."
           value={searchLinks}
           onChange={e => setSearchLinks(e.target.value)}
           className={cn(
             'w-full rounded-md border border-neutral-700 transition-colors max-w-sm',
-            'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200',
+            'focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-200 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
             'placeholder:text-neutral-300'
           )}
         />
 
-        <div className="flex items-center gap-x-4">
+        <div className="md:flex items-center gap-x-4 mt-4 w-full md:mt-0">
           <Select
             onValueChange={value => {
               table.getColumn('flagCategory')?.setFilterValue(value === 'all' ? '' : value)
             }}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground">
               <SelectValue placeholder="Filter by Flag Category" />
             </SelectTrigger>
 
@@ -144,52 +144,54 @@ export function URLFlaggedTable<TData, TValue>({
             </SelectContent>
           </Select>
 
-          <Select
-            onValueChange={value => {
-              if (value === 'newest') {
-                setSorting([{ id: 'createdAt', desc: true }])
-              } else if (value === 'oldest') {
-                setSorting([{ id: 'createdAt', desc: false }])
-              }
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by date" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest" defaultChecked>
-                Newest First
-              </SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center justify-between gap-x-2 mt-2 md:mt-0">
+            <Select
+              onValueChange={value => {
+                if (value === 'newest') {
+                  setSorting([{ id: 'createdAt', desc: true }])
+                } else if (value === 'oldest') {
+                  setSorting([{ id: 'createdAt', desc: false }])
+                }
+              }}
+            >
+              <SelectTrigger className="w-[180px] border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground">
+                <SelectValue placeholder="Sort by date" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest" defaultChecked>
+                  Newest First
+                </SelectItem>
+                <SelectItem value="oldest">Oldest First</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Column
-                <Funnel />
-              </Button>
-            </DropdownMenuTrigger>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  Column
+                  <Funnel />
+                </Button>
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter(column => column.getCanHide())
-                .map(column => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={value => column.toggleVisibility(!!value)}
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter(column => column.getCanHide())
+                  .map(column => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={value => column.toggleVisibility(!!value)}
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    )
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 

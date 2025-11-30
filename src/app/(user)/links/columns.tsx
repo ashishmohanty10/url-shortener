@@ -28,7 +28,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
       const url = row.original
       return (
         <Link className="" href={url.originalUrl} target="_blank">
-          <span className="block truncate w-60 cursor-pointer hover:text-muted-foreground">
+          <span className="block truncate w-60 cursor-pointer hover:text-muted-foreground text-xs md:text-sm">
             {url.originalUrl}
           </span>
         </Link>
@@ -46,7 +46,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
         <div key={url.id} className="w-full">
           {!url.approved ? (
             <div className="flex items-center gap-x-4 w-full h-full">
-              <div className="truncate overflow-x-hidden h-fit w-60 text-2xl font-semibold tracking-tight leading-none flex items-center gap-x-1">
+              <div className="truncate overflow-x-hidden h-fit w-60 font-semibold tracking-tight leading-none flex items-center gap-x-1 text-xs md:text-2xl">
                 {Array.from(
                   { length: `${BASE_URL}/shorten/${url.shortUrl}`.length },
                   (_, i) => i
@@ -65,7 +65,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
           ) : (
             <div className="flex items-center gap-x-4">
               <Link
-                className="cursor-pointer hover:text-muted-foreground w-60 truncate whitespace-nowrap overflow-hidden text-ellipsis"
+                className="cursor-pointer hover:text-muted-foreground w-60 truncate whitespace-nowrap overflow-hidden text-ellipsis text-xs md:text-sm"
                 href={`${BASE_URL}/shorten/${url.shortUrl}`}
                 target="_blank"
               >
@@ -90,7 +90,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
           variant="outline"
           className="grid grid-cols-2 items-center gap-1 px-2 py-0.5 min-w-[60px] max-w-[80px] justify-between"
         >
-          <span className="text-sm font-medium truncate justify-self-start">
+          <span className="font-medium truncate justify-self-start text-xs md:text-sm">
             {Intl.NumberFormat('en', { notation: 'compact' }).format(url.clicks)}
           </span>
           <MousePointerClick className="h-4 w-4 opacity-80 justify-self-end" />
@@ -110,7 +110,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
           variant="success"
           className="bg-green-500/10 hover:bg-green-500 group  transition-colors cursor-pointer"
         >
-          <span className="text-green-400 group-hover:text-white transition-colors">
+          <span className="text-green-400 group-hover:text-white transition-colors text-xs md:text-sm">
             {url.tags.join(', ')}
           </span>
         </Badge>
@@ -119,7 +119,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
           variant="outline"
           className="text-green-400 hover:bg-green-500 hover:text-white transition-colors"
         >
-          No tags
+          NoTags
         </Badge>
       )
     },
@@ -140,7 +140,7 @@ export const columns: ColumnDef<UserUrlType>[] = [
     cell: ({ row }) => {
       const url = row.original
       return (
-        <div className="text-sm">
+        <div className="text-xs md:text-sm">
           {new Date(url.createdAt).toLocaleString('en-US', { hour12: true })}
         </div>
       )

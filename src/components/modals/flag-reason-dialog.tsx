@@ -33,11 +33,13 @@ export const FlagReasonDialog = ({
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    'text-white font-semibold w-24 text-center',
+                    'text-white font-semibold w-28 text-center',
                     showUserMsg && 'w-fit'
                   )}
                 >
-                  {!showUserMsg && <div className="text-xs text-center">{flagCategory}</div>}
+                  {!showUserMsg && (
+                    <div className="text-xs md:text-sm text-center">{flagCategory}</div>
+                  )}
                   {showUserMsg ? (
                     <div className="col-span-1">
                       <BadgeInfo size={8} />

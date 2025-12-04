@@ -1,10 +1,10 @@
 'use server'
 
 import { requireAuth } from '@/utils/auth-guard'
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { revalidatePath } from 'next/cache'
-import { FlagCategory } from '../../../prisma/generated/prisma'
 import { invalidateUrlCache } from '@/utils/cache-invalidator'
+import { FlagCategory } from '../../../prisma/generated/prisma/enums'
 
 export async function changeFlagCategoryAction(urlId: string, flagCategory: string) {
   try {

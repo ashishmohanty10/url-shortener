@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { revalidatePath } from 'next/cache'
 import { requireAuth } from '@/utils/auth-guard'
 import { cloudinary } from '@/lib/config'

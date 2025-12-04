@@ -1,4 +1,4 @@
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { redirect, notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import type { Metadata } from 'next'

@@ -7,7 +7,7 @@ import { sendPasswordResetEmailAction } from '@/server/send-password-reset-email
 import { sendEmailVerificationAction } from '@/server/send-email-verification'
 import { sendWelcomeEmailAction } from '@/server/send-welcome-email'
 import { env } from './env'
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {

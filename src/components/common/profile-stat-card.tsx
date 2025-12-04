@@ -5,7 +5,7 @@ export function StatCard({ label, value, className }: StatCardProps) {
   return (
     <div
       className={cn(
-        'flex flex-col items-center bg-card hover:card-bg hover:bg-secondary p-4 rounded-lg',
+        'text-center bg-card hover:card-bg hover:bg-secondary p-4 rounded-lg',
         className
       )}
     >

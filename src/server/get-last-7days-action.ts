@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { requireAuth } from '@/utils/auth-guard'
 import { AnalyticsItem } from '@/utils/types'
 

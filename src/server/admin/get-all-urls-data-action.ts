@@ -1,11 +1,11 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { env } from '@/lib/env'
 import { requireAuth } from '@/utils/auth-guard'
 import { AdminUrlType } from '@/utils/types'
-import { Prisma } from '../../../prisma/generated/prisma'
+import { Prisma } from '../../../prisma/generated/prisma/client'
 
 const time = Number(env.GET_DATA_CACHE_TIME) || 300
 

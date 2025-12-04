@@ -1,7 +1,8 @@
-import { prisma } from '@/db/prisma'
+import 'dotenv/config'
 import { redis } from '@/lib/redis'
 import { env } from '@/lib/env'
-import { UrlClick } from '../../prisma/generated/prisma'
+import { UrlClick } from '../../prisma/generated/prisma/client'
+import prisma from '@/db/prisma'
 
 const BATCH_SIZE = Number(env.BATCH_SIZE) || 50
 const FLUSH_INTERVAL_MS = Number(env.FLUSH_INTERVAL_MS) || 1000
@@ -209,7 +210,7 @@ async function flushRetryBatch(batch: Array<UrlClick>) {
 }
 
 // Validate click data from queue
-function validateClickData(data: any): data is UrlClick {
+function validateClickData(data: UrlClick) {
   if (!data || typeof data !== 'object') {
     return false
   }

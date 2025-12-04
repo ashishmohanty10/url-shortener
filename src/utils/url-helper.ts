@@ -1,6 +1,6 @@
 import { env } from '@/lib/env'
 import { extractClickMetadataFromHeaders } from '@/lib/geo'
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { headers } from 'next/headers'
 import { UrlData } from './types'

@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { env } from '@/lib/env'
 import { redis } from '@/lib/redis'
 import { requireAuth } from '@/utils/auth-guard'

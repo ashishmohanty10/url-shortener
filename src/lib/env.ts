@@ -54,7 +54,7 @@ const envSchema = z.object({
 const parsed = envSchema.safeParse(process.env)
 
 if (!parsed.success) {
-  console.error(parsed.error)
+  console.error(parsed.error.flatten())
   throw new Error('Environment validation failed. Check your .env file.')
 }
 

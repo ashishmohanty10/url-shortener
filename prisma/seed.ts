@@ -1,10 +1,12 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import 'dotenv/config'
 import { generateRandomString } from '@/lib/utils'
 import { checkUrlSafetyAction } from '@/server/check-url-safety-action'
 import { faker } from '@faker-js/faker'
 import { hashPassword } from 'better-auth/crypto'
+import prisma from '@/db/prisma'
+import { Prisma } from './generated/prisma/browser'
 
 async function main() {
   console.log('🌱 Seeding database with safety checks...')
@@ -52,7 +54,7 @@ async function main() {
 
   // Generate pretend URLs
   const urlsToCreate = Array.from({ length: 10 }) // 10 demo URLs
-  const urls: any[] = []
+  const urls: Prisma.UrlCreateManyInput[] = []
 
   console.log('🔍 Checking URLs with AI moderation...')
 
@@ -75,10 +77,10 @@ async function main() {
 
       clicks: 0,
 
-      approved: safety.data?.isSafe,
+      approved: safety.data?.isSafe ?? false,
       flagged: !safety.data?.isSafe,
-      flagCategory: safety.data?.category,
-      flagReason: safety.data?.reason,
+      flagCategory: safety.data?.category ?? 'unknown',
+      flagReason: safety.data?.reason ?? 'No reason provided',
 
       createdAt: faker.date.recent({ days: 20 }),
       updatedAt: new Date(),

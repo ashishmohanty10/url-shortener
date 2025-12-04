@@ -1,4 +1,4 @@
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { ensureHttps, generateRandomString } from '@/lib/utils'
 import { creteLinkSchema } from '@/lib/zod-schema'
 import { checkUrlSafetyAction } from '@/server/check-url-safety-action'

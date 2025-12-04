@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { requireAuth } from '@/utils/auth-guard'
 import { revalidatePath } from 'next/cache'

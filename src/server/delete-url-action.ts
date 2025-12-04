@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { deleteUrlSchema } from '@/lib/zod-schema'
 import { requireAuth } from '@/utils/auth-guard'
 import { invalidateUrlCache } from '@/utils/cache-invalidator'

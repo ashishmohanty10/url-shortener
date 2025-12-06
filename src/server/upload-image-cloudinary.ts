@@ -17,7 +17,7 @@ export async function uploadImageToCloudinaryAction(formData: FormData) {
 
   const validationResult = fileSchema.safeParse(file)
   if (!validationResult.success) {
-    throw new Error(validationResult.error.errors[0].message)
+    throw new Error(validationResult.error.issues[0].message)
   }
 
   const bytes = await file.arrayBuffer()

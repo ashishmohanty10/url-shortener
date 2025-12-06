@@ -36,7 +36,9 @@ export function DeleteUrlModal({ id, password }: { id: string; password: string 
     setLoading(false)
 
     if (!res.success) {
-      toast.error(res.error || 'Something went wrong while deleting the URL.')
+      const errorMessage =
+        typeof res.error === 'string' ? res.error : 'Something went wrong while deleting the URL.'
+      toast.error(errorMessage)
       return
     }
 

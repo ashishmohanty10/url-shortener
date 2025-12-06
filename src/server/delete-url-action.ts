@@ -12,7 +12,7 @@ export async function deleteUserUrlAction(data: { id: string; password: string }
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.errors[0].message,
+      error: parsed.error.flatten().fieldErrors,
     }
   }
 

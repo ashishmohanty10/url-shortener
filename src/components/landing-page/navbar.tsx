@@ -19,14 +19,12 @@ export const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 border-y-axis bg-background/30 backdrop-blur-lg">
       <Container className="border-x-axis flex items-center justify-between py-4">
-        {/* Left: Logo + Desktop Links */}
         <div className="flex items-center gap-x-10">
           <div className="flex items-center gap-x-2">
             <Logo className="size-7 leading-none" />
             <div className="text-2xl font-bold leading-none">ShortenURL</div>
           </div>
 
-          {/* Desktop nav links */}
           <div className={`${isMobile ? 'hidden' : 'flex items-center gap-x-3'}`}>
             {NAVBAR_ITEMS.map(item => (
               <Link
@@ -41,12 +39,10 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Desktop Auth */}
         <div className={`${isMobile ? 'hidden' : 'block'}`}>
           <AuthButton />
         </div>
 
-        {/* Mobile Menu Button */}
         <div className={`${isMobile ? 'block' : 'hidden'}`}>
           <Button size="icon" onClick={toggleNav} className="transition-transform z-50 relative">
             {isNavOpen ? <X /> : <Menu />}
@@ -54,7 +50,6 @@ export const Navbar = () => {
         </div>
       </Container>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isNavOpen && isMobile && (
           <motion.div
@@ -64,12 +59,10 @@ export const Navbar = () => {
             transition={{ type: 'tween', duration: 0.3 }}
             className="fixed top-0 right-0 h-screen w-3/4 bg-background/95 border-l border-neutral-800 z-40 flex flex-col items-start gap-y-6 p-6"
           >
-            {/* Close button */}
             <Button size="icon" onClick={toggleNav} className="absolute top-4 right-4">
               <X />
             </Button>
 
-            {/* Nav Links */}
             <div className="flex flex-col gap-y-4 mt-6 w-full">
               {NAVBAR_ITEMS.map(item => (
                 <Link
@@ -83,7 +76,6 @@ export const Navbar = () => {
               ))}
             </div>
 
-            {/* Auth Button */}
             <div className="mt-auto w-full">
               <AuthButton />
             </div>

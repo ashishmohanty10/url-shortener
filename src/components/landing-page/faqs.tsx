@@ -71,7 +71,7 @@ export function FAQS() {
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
                 Yes! You can personalize the slug part of your shortened link (for example:{' '}
-                <code>mybrand.link/sale</code>) and even connect your own custom domain for branding
+                <code>brand.link/sale</code>) and even connect your own custom domain for branding
                 consistency.
               </p>
             </AccordionContent>
